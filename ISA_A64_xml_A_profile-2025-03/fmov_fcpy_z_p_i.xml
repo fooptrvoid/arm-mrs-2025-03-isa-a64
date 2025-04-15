@@ -1,0 +1,173 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="fmov_fcpy_z_p_i" title="FMOV (immediate, predicated) -- A64" type="alias">
+  <docvars>
+    <docvar key="alias_mnemonic" value="FMOV"/>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="FCPY"/>
+  </docvars>
+  <heading>FMOV (immediate, predicated)</heading>
+  <desc>
+    <brief>
+      <para>Move 8-bit floating-point immediate to vector elements (predicated)</para>
+    </brief>
+    <authored>
+      <para>Move a floating-point immediate into each active element
+in the destination vector. Inactive elements in the destination vector register remain unmodified.</para>
+    </authored>
+    <predicated>True</predicated>
+    <takes_movprfx>True</takes_movprfx>
+    <takes_pred_movprfx>True</takes_pred_movprfx>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>This instruction might be immediately preceded in program order by a <instruction>MOVPRFX</instruction> instruction. The <instruction>MOVPRFX</instruction> must conform to all of the following requirements, otherwise the behavior of the <instruction>MOVPRFX</instruction> and this instruction is <arm-defined-word>CONSTRAINED UNPREDICTABLE</arm-defined-word>:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> can be predicated or unpredicated.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the same governing predicate register as this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the larger of the destination element size and first source element size in the preferred disassembly of this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> must specify the same destination register as this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The destination register must not refer to architectural register state referenced by any other source operand register of this instruction.</content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <aliasto refiform="fcpy_z_p_i.xml" iformid="fcpy_z_p_i">FCPY</aliasto>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCPY"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_wideimm_pred.sve_int_dup_fpimm_pred.fcpy_z_p_i_.fmov_z_p_i_">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="19" width="4" name="Pg" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="12" width="8" name="imm8" usename="1">
+          <c colspan="8"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fmov_z_p_i__fcpy_z_p_i_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCPY"/>
+          <docvar key="alias_mnemonic" value="FMOV"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>FMOV  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__49">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register, encoded in the &quot;Pg&quot; field." link="Pg__2">&lt;Pg&gt;</a><text>/M, #</text><a hover="Is a floating-point immediate value expressible as ±n÷16×2^r, where n and r are integers such that 16 ≤ n ≤ 31 and -3 ≤ r ≤ 4, i.e. a normalized binary floating-point encoding with 1 sign bit, 3-bit exponent, and 4-bit fractional part, encoded in the &quot;imm8&quot; field." link="const__6">&lt;const&gt;</a></asmtemplate>
+        <equivalent_to>
+          <asmtemplate><a href="fcpy_z_p_i.xml#fcpy_z_p_i_">FCPY</a><text>  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." href="fcpy_z_p_i.xml#Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " href="fcpy_z_p_i.xml#T__49">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register, encoded in the &quot;Pg&quot; field." href="fcpy_z_p_i.xml#Pg__2">&lt;Pg&gt;</a><text>/M, #</text><a hover="Is a floating-point immediate value expressible as ±n÷16×2^r, where n and r are integers such that 16 ≤ n ≤ 31 and -3 ≤ r ≤ 4, i.e. a normalized binary floating-point encoding with 1 sign bit, 3-bit exponent, and 4-bit fractional part, encoded in the &quot;imm8&quot; field." href="fcpy_z_p_i.xml#const__6">&lt;const&gt;</a></asmtemplate>
+          <aliascond>Unconditionally</aliascond>
+        </equivalent_to>
+      </encoding>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="fmov_z_p_i__fcpy_z_p_i_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fmov_z_p_i__fcpy_z_p_i_" symboldefcount="1">
+      <symbol link="T__49">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="fmov_z_p_i__fcpy_z_p_i_" symboldefcount="1">
+      <symbol link="Pg__2">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fmov_z_p_i__fcpy_z_p_i_" symboldefcount="1">
+      <symbol link="const__6">&lt;const&gt;</symbol>
+      <account encodedin="imm8">
+        <intro>
+          <para>Is a floating-point immediate value expressible as ±n÷16×2^r, where n and r are integers such that 16 ≤ n ≤ 31 and -3 ≤ r ≤ 4, i.e. a normalized binary floating-point encoding with 1 sign bit, 3-bit exponent, and 4-bit fractional part, encoded in the "imm8" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+</instructionsection>

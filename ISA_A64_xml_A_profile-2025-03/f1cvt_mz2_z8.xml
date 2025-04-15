@@ -1,0 +1,234 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="f1cvt_mz2_z8" title="F1CVT, F2CVT -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="mortlach2"/>
+    <docvar key="isa" value="A64"/>
+  </docvars>
+  <heading>F1CVT, F2CVT</heading>
+  <desc>
+    <brief>
+      <para>Multi-vector convert from 8-bit floating-point to half-precision (in-order)</para>
+    </brief>
+    <authored>
+      <para>This instruction converts each 8-bit floating-point element of the source vector to half-precision while downscaling the value,
+and places the  results in the corresponding 16-bit elements
+of the destination vectors. F1CVT scales the values by 2<sup>-UInt(FPMR.LSCALE[3:0])</sup>.
+F2CVT scales the values by 2<sup>-UInt(FPMR.LSCALE2[3:0])</sup>.
+The 8-bit floating-point encoding format for F1CVT is selected by <asm-code>FPMR.F8S1</asm-code>.
+The 8-bit floating-point encoding format for F2CVT is selected by <asm-code>FPMR.F8S2</asm-code>.</para>
+      <para>This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <sm_policy>SM_1_only</sm_policy>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="2">
+      <txt>It has encodings from 2 classes:</txt>
+      <a href="#iclass_f1cvt">F1CVT</a>
+      <txt> and </txt>
+      <a href="#iclass_f2cvt">F2CVT</a>
+    </classesintro>
+    <iclass name="F1CVT" oneof="2" id="iclass_f1cvt" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="F1CVT"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2 &amp;&amp; FEAT_FP8" name="FEAT_SME2 &amp;&amp; FEAT_FP8"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_multi_sve_4.mortlach_multi2_wide_fp8_cvrt.f1cvt_mz2_z8_" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="17" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="4" name="Zd" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="0" name="L" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+      </regdiagram>
+      <encoding name="f1cvt_mz2_z8_" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="F1CVT"/>
+          <docvar key="instr-class" value="mortlach2"/>
+        </docvars>
+        <asmtemplate><text>F1CVT  { </text><a hover="For the &quot;Two registers&quot; variant: is the name of the first scalable vector register of the destination multi-vector group, encoded as &quot;Zd&quot; times 2." link="Zd1">&lt;Zd1&gt;</a><text>.H-</text><a hover="For the &quot;Consecutive&quot; variant: is the name of the second scalable vector register of the destination multi-vector group, encoded as &quot;Zd&quot; times 2 plus 1." link="Zd2">&lt;Zd2&gt;</a><text>.H }, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.B</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_multi_sve_4.mortlach_multi2_wide_fp8_cvrt.f1cvt_mz2_z8_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) || !IsFeatureImplemented(FEAT_FP8) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd: '0');
+constant boolean issrc2 = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="F2CVT" oneof="2" id="iclass_f2cvt" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="F2CVT"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2 &amp;&amp; FEAT_FP8" name="FEAT_SME2 &amp;&amp; FEAT_FP8"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_multi_sve_4.mortlach_multi2_wide_fp8_cvrt.f2cvt_mz2_z8_" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="17" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="4" name="Zd" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="0" name="L" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+      </regdiagram>
+      <encoding name="f2cvt_mz2_z8_" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="F2CVT"/>
+          <docvar key="instr-class" value="mortlach2"/>
+        </docvars>
+        <asmtemplate><text>F2CVT  { </text><a hover="For the &quot;Two registers&quot; variant: is the name of the first scalable vector register of the destination multi-vector group, encoded as &quot;Zd&quot; times 2." link="Zd1">&lt;Zd1&gt;</a><text>.H-</text><a hover="For the &quot;Consecutive&quot; variant: is the name of the second scalable vector register of the destination multi-vector group, encoded as &quot;Zd&quot; times 2 plus 1." link="Zd2">&lt;Zd2&gt;</a><text>.H }, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.B</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_multi_sve_4.mortlach_multi2_wide_fp8_cvrt.f2cvt_mz2_z8_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) || !IsFeatureImplemented(FEAT_FP8) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd: '0');
+constant boolean issrc2 = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="f1cvt_mz2_z8_, f2cvt_mz2_z8_" symboldefcount="1">
+      <symbol link="Zd1">&lt;Zd1&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the first scalable vector register of the destination multi-vector group, encoded as "Zd" times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="f1cvt_mz2_z8_, f2cvt_mz2_z8_" symboldefcount="1">
+      <symbol link="Zd2">&lt;Zd2&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the second scalable vector register of the destination multi-vector group, encoded as "Zd" times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="f1cvt_mz2_z8_, f2cvt_mz2_z8_" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sme.mortlach_multi_sve_4.mortlach_multi2_wide_fp8_cvrt.f1cvt_mz2_z8_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckFPMREnabled.0" file="shared_pseudocode.xml" hover="function: CheckFPMREnabled()">CheckFPMREnabled</a>();
+<a link="impl-aarch64.CheckStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckStreamingSVEEnabled()">CheckStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV 8;
+constant bits(VL) operand = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+bits(2*VL) result;
+
+for e = 0 to elements-1
+    constant bits(8) element = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand, e, 8];
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, 16] = <a link="impl-shared.FP8ConvertFP.4" file="shared_pseudocode.xml" hover="function: bits(2*N) FP8ConvertFP(bits(N) op, boolean issrc2, FPCR_Type fpcr, FPMR_Type fpmr)">FP8ConvertFP</a>(element, issrc2, FPCR, FPMR);
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d+0, VL] = result&lt;VL-1:0&gt;;
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d+1, VL] = result&lt;2*VL-1:VL&gt;;</pstext></ps>
+  </ps_section>
+</instructionsection>

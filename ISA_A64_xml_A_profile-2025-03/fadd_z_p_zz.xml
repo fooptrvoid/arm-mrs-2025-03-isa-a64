@@ -1,0 +1,203 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="fadd_z_p_zz" title="FADD (vectors, predicated) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="FADD"/>
+  </docvars>
+  <heading>FADD (vectors, predicated)</heading>
+  <desc>
+    <brief>
+      <para>Floating-point add vector (predicated)</para>
+    </brief>
+    <authored>
+      <para>Add active floating-point elements of the second source vector to
+corresponding floating-point elements of the first source vector
+and destructively place the results in the corresponding elements of the first source vector. Inactive elements in the destination vector register remain unmodified.</para>
+    </authored>
+    <predicated>True</predicated>
+    <takes_movprfx>True</takes_movprfx>
+    <takes_pred_movprfx>True</takes_pred_movprfx>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>This instruction might be immediately preceded in program order by a <instruction>MOVPRFX</instruction> instruction. The <instruction>MOVPRFX</instruction> must conform to all of the following requirements, otherwise the behavior of the <instruction>MOVPRFX</instruction> and this instruction is <arm-defined-word>CONSTRAINED UNPREDICTABLE</arm-defined-word>:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> can be predicated or unpredicated.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the same governing predicate register as this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the larger of the destination element size and first source element size in the preferred disassembly of this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> must specify the same destination register as this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The destination register must not refer to architectural register state referenced by any other source operand register of this instruction.</content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FADD"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_pred.sve_fp_2op_p_zds.fadd_z_p_zz_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1" settings="2" constraint="!= 00">
+          <c colspan="2">!= 00</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="19" width="4" name="opc" usename="1" settings="4" psbits="xxxx">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zm" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zdn" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fadd_z_p_zz_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FADD"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>FADD  </text><a hover="Is the name of the first source and destination scalable vector register, encoded in the &quot;Zdn&quot; field." link="Zdn">&lt;Zdn&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__37">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the first source and destination scalable vector register, encoded in the &quot;Zdn&quot; field." link="Zdn">&lt;Zdn&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__37">&lt;T&gt;</a><text>, </text><a hover="Is the name of the second source scalable vector register, encoded in the &quot;Zm&quot; field." link="Zm">&lt;Zm&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__37">&lt;T&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_pred.sve_fp_2op_p_zds.fadd_z_p_zz_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(size);
+
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer dn = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zdn);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="fadd_z_p_zz_" symboldefcount="1">
+      <symbol link="Zdn">&lt;Zdn&gt;</symbol>
+      <account encodedin="Zdn">
+        <intro>
+          <para>Is the name of the first source and destination scalable vector register, encoded in the "Zdn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fadd_z_p_zz_" symboldefcount="1">
+      <symbol link="T__37">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="fadd_z_p_zz_" symboldefcount="1">
+      <symbol link="Pg">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register P0-P7, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fadd_z_p_zz_" symboldefcount="1">
+      <symbol link="Zm">&lt;Zm&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the second source scalable vector register, encoded in the "Zm" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_fp_pred.sve_fp_2op_p_zds.fadd_z_p_zz_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer elements = VL DIV esize;
+constant bits(PL) mask = <a link="impl-aarch64.P.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) P[integer n, integer width]">P</a>[g, PL];
+constant bits(VL) operand1 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[dn, VL];
+constant bits(VL) operand2 = if <a link="impl-aarch64.AnyActiveElement.2" file="shared_pseudocode.xml" hover="function: boolean AnyActiveElement(bits(N) mask, integer esize)">AnyActiveElement</a>(mask, esize) then <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[m, VL] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+bits(VL) result;
+
+for e = 0 to elements-1
+    constant bits(esize) element1 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand1, e, esize];
+    if <a link="impl-aarch64.ActivePredicateElement.3" file="shared_pseudocode.xml" hover="function: boolean ActivePredicateElement(bits(N) pred, integer e, integer esize)">ActivePredicateElement</a>(mask, e, esize) then
+        constant bits(esize) element2 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand2, e, esize];
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, esize] = <a link="impl-shared.FPAdd.3" file="shared_pseudocode.xml" hover="function: bits(N) FPAdd(bits(N) op1, bits(N) op2, FPCR_Type fpcr)">FPAdd</a>(element1, element2, FPCR);
+    else
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, esize] = element1;
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[dn, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

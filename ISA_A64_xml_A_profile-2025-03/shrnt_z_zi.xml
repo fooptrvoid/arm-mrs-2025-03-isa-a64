@@ -1,0 +1,265 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="shrnt_z_zi" title="SHRNT -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="SHRNT"/>
+  </docvars>
+  <heading>SHRNT</heading>
+  <desc>
+    <brief>
+      <para>Shift right narrow by immediate (top)</para>
+    </brief>
+    <authored>
+      <para>Shift each unsigned integer value in the source
+vector elements right by an immediate value, and place the truncated results in
+the odd-numbered half-width destination elements, leaving the even-numbered
+elements unchanged.
+The immediate shift amount is an unsigned value in the range 1
+to number of bits per element.
+This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE2" oneof="1" id="iclass_sve2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="SHRNT"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2 || FEAT_SME" name="FEAT_SVE2 || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_intx_narrowing.sve_intx_shift_narrow.shrnt_z_zi_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="tszh" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" name="tszl" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="18" width="3" name="imm3" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="14" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="13" name="op" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="12" name="U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="11" name="R" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="10" name="T" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="shrnt_z_zi_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="SHRNT"/>
+          <docvar key="instr-class" value="sve2"/>
+        </docvars>
+        <asmtemplate><text>SHRNT  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__76">&lt;T&gt;</a><text>, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.</text><a hover="Is the size specifier, " link="Tb__8">&lt;Tb&gt;</a><text>, #</text><a hover="Is the immediate shift amount, in the range 1 to number of bits per element, encoded in &quot;tszh:tszl:imm3&quot;." link="const__2">&lt;const&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_intx_narrowing.sve_intx_shift_narrow.shrnt_z_zi_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant bits(3) tsize = tszh:tszl;
+if tsize == '000' then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.HighestSetBit.1" file="shared_pseudocode.xml" hover="function: integer HighestSetBit(bits(N) x)">HighestSetBit</a>(tsize);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer shift = (2 * esize) - <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(tsize:imm3);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="shrnt_z_zi_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="shrnt_z_zi_" symboldefcount="1">
+      <symbol link="T__76">&lt;T&gt;</symbol>
+      <definition encodedin="tszh:tszl">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="3">
+            <thead>
+              <row>
+                <entry class="bitfield">tszh</entry>
+                <entry class="bitfield">tszl</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">1x</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="bitfield">xx</entry>
+                <entry class="symbol">S</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="shrnt_z_zi_" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="shrnt_z_zi_" symboldefcount="1">
+      <symbol link="Tb__8">&lt;Tb&gt;</symbol>
+      <definition encodedin="tszh:tszl">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="3">
+            <thead>
+              <row>
+                <entry class="bitfield">tszh</entry>
+                <entry class="bitfield">tszl</entry>
+                <entry class="symbol">&lt;Tb&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="bitfield">1x</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="bitfield">xx</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="shrnt_z_zi_" symboldefcount="1">
+      <symbol link="const__2">&lt;const&gt;</symbol>
+      <account encodedin="tszh:tszl:imm3">
+        <intro>
+          <para>Is the immediate shift amount, in the range 1 to number of bits per element, encoded in "tszh:tszl:imm3".</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_intx_narrowing.sve_intx_shift_narrow.shrnt_z_zi_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV (2 * esize);
+constant bits(VL) operand = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+bits(VL) result = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[d, VL];
+for e = 0 to elements-1
+    constant bits(2*esize) element = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand, e, 2*esize];
+    constant integer res = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(element) &gt;&gt; shift;
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, 2*e + 1, esize] = res&lt;esize-1:0&gt;;
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

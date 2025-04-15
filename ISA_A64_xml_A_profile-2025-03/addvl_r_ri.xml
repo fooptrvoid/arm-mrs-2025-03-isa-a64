@@ -1,0 +1,168 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="addvl_r_ri" title="ADDVL -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="ADDVL"/>
+  </docvars>
+  <heading>ADDVL</heading>
+  <desc>
+    <brief>
+      <para>Add multiple of vector register size to scalar register</para>
+    </brief>
+    <authored>
+      <para>Add the current vector register size in bytes multiplied by
+an immediate in the range -32 to 31 to the 64-bit
+source general-purpose register or current stack pointer, and
+place the result in the 64-bit destination general-purpose
+register or current stack pointer.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="ADDVL"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_alloca.sve_int_arith_vl.addvl_r_ri_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="22" name="op" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="Rn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="15" width="4" settings="4">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="11" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="10" width="6" name="imm6" usename="1">
+          <c colspan="6"/>
+        </box>
+        <box hibit="4" width="5" name="Rd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="addvl_r_ri_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="ADDVL"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>ADDVL  </text><a hover="Is the 64-bit name of the destination general-purpose register or stack pointer, encoded in the &quot;Rd&quot; field." link="XdSP__2">&lt;Xd|SP&gt;</a><text>, </text><a hover="Is the 64-bit name of the source general-purpose register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP__2">&lt;Xn|SP&gt;</a><text>, #</text><a hover="Is the signed immediate operand, in the range -32 to 31, encoded in the &quot;imm6&quot; field." link="imm__28">&lt;imm&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_alloca.sve_int_arith_vl.addvl_r_ri_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rd);
+constant integer imm = <a link="impl-shared.SInt.1" file="shared_pseudocode.xml" hover="function: integer SInt(bits(N) x)">SInt</a>(imm6);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="addvl_r_ri_" symboldefcount="1">
+      <symbol link="XdSP__2">&lt;Xd|SP&gt;</symbol>
+      <account encodedin="Rd">
+        <intro>
+          <para>Is the 64-bit name of the destination general-purpose register or stack pointer, encoded in the "Rd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="addvl_r_ri_" symboldefcount="1">
+      <symbol link="XnSP__2">&lt;Xn|SP&gt;</symbol>
+      <account encodedin="Rn">
+        <intro>
+          <para>Is the 64-bit name of the source general-purpose register or stack pointer, encoded in the "Rn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="addvl_r_ri_" symboldefcount="1">
+      <symbol link="imm__28">&lt;imm&gt;</symbol>
+      <account encodedin="imm6">
+        <intro>
+          <para>Is the signed immediate operand, in the range -32 to 31, encoded in the "imm6" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_alloca.sve_int_arith_vl.addvl_r_ri_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant bits(64) operand1 = if n == 31 then <a link="impl-aarch64.SP.read.1" file="shared_pseudocode.xml" hover="accessor: bits(width) SP[integer width]">SP</a>[64] else <a link="impl-aarch64.X.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) X[integer n, integer width]">X</a>[n, 64];
+constant bits(64) result = operand1 + (imm * (VL DIV 8));
+
+if d == 31 then
+    <a link="impl-aarch64.SP.write.1" file="shared_pseudocode.xml" hover="accessor: SP[integer width] = bits(width) value">SP</a>[64] = result;
+else
+    <a link="impl-aarch64.X.write.2" file="shared_pseudocode.xml" hover="accessor: X[integer n, integer width] = bits(width) value">X</a>[d, 64] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

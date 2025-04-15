@@ -1,0 +1,220 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="mov_cpy_z_o_i" title="MOV (immediate, zeroing) -- A64" type="alias">
+  <docvars>
+    <docvar key="alias_mnemonic" value="MOV"/>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="CPY"/>
+  </docvars>
+  <heading>MOV (immediate, zeroing)</heading>
+  <desc>
+    <brief>
+      <para>Move signed integer immediate to vector elements (zeroing)</para>
+    </brief>
+    <authored>
+      <para>Move a signed integer immediate
+to each active element in the destination vector.
+Inactive elements in the destination vector register are set to zero.</para>
+      <para>The immediate operand is a signed value in the range -128 to
++127, and for element widths of 16 bits or higher it may also be
+a signed multiple of 256 in the range -32768 to +32512 (excluding 0).</para>
+      <para>The immediate is encoded in 8 bits with an optional left shift
+by 8. The preferred disassembly when the shift option is
+specified is "<syntax>#&lt;simm8&gt;, LSL #8</syntax>".
+However an assembler and
+disassembler may also allow use of the shifted 16-bit value unless the
+immediate is 0 and the shift amount is 8, which must be
+unambiguously described as "<syntax>#0, LSL #8</syntax>".</para>
+    </authored>
+    <predicated>True</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its operand registers when its governing predicate register contains the same value for each execution.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its operand registers when its governing predicate register contains the same value for each execution.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <aliasto refiform="cpy_z_o_i.xml" iformid="cpy_z_o_i">CPY (immediate, zeroing)</aliasto>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="CPY"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_wideimm_pred.sve_int_dup_imm_pred.cpy_z_o_i_.mov_z_o_i_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="19" width="4" name="Pg" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="14" name="M" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="13" width="1" name="sh" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="12" width="8" name="imm8" usename="1">
+          <c colspan="8"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="mov_z_o_i__cpy_z_o_i_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="CPY"/>
+          <docvar key="alias_mnemonic" value="MOV"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>MOV  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__28">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register, encoded in the &quot;Pg&quot; field." link="Pg__2">&lt;Pg&gt;</a><text>/Z, #</text><a hover="Is a signed immediate in the range -128 to 127, encoded in the &quot;imm8&quot; field." link="imm__46">&lt;imm&gt;</a><text>{, </text><a hover="Is the optional left shift to apply to the immediate, defaulting to LSL #0 and " link="shift__10">&lt;shift&gt;</a><text>}</text></asmtemplate>
+        <equivalent_to>
+          <asmtemplate><a href="cpy_z_o_i.xml#cpy_z_o_i_">CPY</a><text>  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." href="cpy_z_o_i.xml#Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " href="cpy_z_o_i.xml#T__28">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register, encoded in the &quot;Pg&quot; field." href="cpy_z_o_i.xml#Pg__2">&lt;Pg&gt;</a><text>/Z, #</text><a hover="Is a signed immediate in the range -128 to 127, encoded in the &quot;imm8&quot; field." href="cpy_z_o_i.xml#imm__46">&lt;imm&gt;</a><text>{, </text><a hover="Is the optional left shift to apply to the immediate, defaulting to LSL #0 and " href="cpy_z_o_i.xml#shift__10">&lt;shift&gt;</a><text>}</text></asmtemplate>
+          <aliascond>Unconditionally</aliascond>
+        </equivalent_to>
+      </encoding>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="mov_z_o_i__cpy_z_o_i_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_z_o_i__cpy_z_o_i_" symboldefcount="1">
+      <symbol link="T__28">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="mov_z_o_i__cpy_z_o_i_" symboldefcount="1">
+      <symbol link="Pg__2">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_z_o_i__cpy_z_o_i_" symboldefcount="1">
+      <symbol link="imm__46">&lt;imm&gt;</symbol>
+      <account encodedin="imm8">
+        <intro>
+          <para>Is a signed immediate in the range -128 to 127, encoded in the "imm8" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_z_o_i__cpy_z_o_i_" symboldefcount="1">
+      <symbol link="shift__10">&lt;shift&gt;</symbol>
+      <definition encodedin="sh">
+        <intro>Is the optional left shift to apply to the immediate, defaulting to LSL #0 and </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">sh</entry>
+                <entry class="symbol">&lt;shift&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="symbol">LSL #0</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="symbol">LSL #8</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+  </explanations>
+</instructionsection>

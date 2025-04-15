@@ -1,0 +1,173 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="movprfx_z_z" title="MOVPRFX (unpredicated) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="MOVPRFX"/>
+  </docvars>
+  <heading>MOVPRFX (unpredicated)</heading>
+  <desc>
+    <brief>
+      <para>Move prefix (unpredicated)</para>
+    </brief>
+    <authored>
+      <para>The unpredicated <instruction>MOVPRFX</instruction> instruction is a hint to hardware that the instruction
+may be combined with the destructive instruction which
+follows it in program order to create a single constructive
+operation.  Since it is a hint it is also
+permitted to be implemented as a discrete vector copy, and
+the result of executing the pair of instructions with or
+without combining is identical. The choice of combined
+versus discrete operation may vary dynamically.</para>
+      <para>Although the operation of the instruction is defined as a
+simple unpredicated vector copy, it is required that the prefixed
+instruction at PC+4 must be an SVE destructive
+binary or ternary instruction encoding, or a unary operation with
+merging predication, but excluding other <instruction>MOVPRFX</instruction>
+instructions.
+The prefixed instruction must specify
+   the same destination vector as the <instruction>MOVPRFX</instruction> instruction.
+The prefixed instruction must not use the
+destination register in any other operand position,
+even if they have different names but refer to the
+same architectural register state.
+Any other use is <arm-defined-word>UNPREDICTABLE</arm-defined-word>.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="MOVPRFX"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_int_unpred_misc.sve_int_bin_cons_misc_0_d.movprfx_z_z_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="opc2" usename="1" settings="5" psbits="xxxxx">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="4" settings="4">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="11" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="movprfx_z_z_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="MOVPRFX"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>MOVPRFX  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_int_unpred_misc.sve_int_bin_cons_misc_0_d.movprfx_z_z_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="movprfx_z_z_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="movprfx_z_z_" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_int_unpred_misc.sve_int_bin_cons_misc_0_d.movprfx_z_z_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant bits(VL) result = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

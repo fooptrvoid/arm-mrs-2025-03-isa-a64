@@ -1,0 +1,317 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="aesemc_mz_zzi" title="AESEMC -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="AESEMC"/>
+  </docvars>
+  <heading>AESEMC</heading>
+  <desc>
+    <brief>
+      <para>Multi-vector AES single round encryption and mix columns</para>
+    </brief>
+    <authored>
+      <para>The <instruction>AESEMC</instruction> instruction reads a 16-byte state array from each
+128-bit segment of the two or four first source vectors, together with a
+round key from the indexed 128-bit segment of the corresponding 512-bit
+portion of the second source vector.
+Each state array undergoes a single round of the
+AddRoundKey(), ShiftRows(), SubBytes(), and MixColumns() transformations in accordance with the AES
+standard. Each updated state array is destructively placed in the
+corresponding segment of the two or four first source vectors.</para>
+      <para>When the vector length is less than 512 bits, the most
+significant bits of the index are ignored to select the indexed
+128-bit segment of the second source vector.
+This instruction is unpredicated.</para>
+      <para>This instruction is legal when executed in Streaming SVE mode if both
+FEAT_SSVE_AES and FEAT_SVE_AES2 are implemented.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+    <sm_policy>SM_0_or_1</sm_policy>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="2">
+      <txt>It has encodings from 2 classes:</txt>
+      <a href="#iclass_two_registers">Two registers</a>
+      <txt> and </txt>
+      <a href="#iclass_four_registers">Four registers</a>
+    </classesintro>
+    <iclass name="Two registers" oneof="2" id="iclass_two_registers" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="ldstruct-regcount" value="to-2reg"/>
+        <docvar key="mnemonic" value="AESEMC"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE_AES2" name="ARMv9.6"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_intx_crypto.sve_crypto_binary_multi2.aesemc_mz_zzi_2x1" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" name="i2" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="10" name="o2" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zm" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="4" name="Zdn" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="0" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+      </regdiagram>
+      <encoding name="aesemc_mz_zzi_2x1" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="AESEMC"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="ldstruct-regcount" value="to-2reg"/>
+        </docvars>
+        <asmtemplate><text>AESEMC  { </text><a hover="For the &quot;Two registers&quot; variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 2." link="Zdn1">&lt;Zdn1&gt;</a><text>.B-</text><a hover="Is the name of the second scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 2 plus 1." link="Zdn2">&lt;Zdn2&gt;</a><text>.B }, { </text><a hover="For the &quot;Two registers&quot; variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 2." link="Zdn1">&lt;Zdn1&gt;</a><text>.B-</text><a hover="Is the name of the second scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 2 plus 1." link="Zdn2">&lt;Zdn2&gt;</a><text>.B }, </text><a hover="Is the name of the second source scalable vector register, encoded in the &quot;Zm&quot; field." link="Zm">&lt;Zm&gt;</a><text>.Q[</text><a hover="Is the round key index, in the range 0 to 3, encoded in the &quot;i2&quot; field." link="index_aes">&lt;index&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_intx_crypto.sve_crypto_binary_multi2.aesemc_mz_zzi_2x1" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE_AES2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);
+constant integer dn = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zdn:'0');
+integer index = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i2);
+constant integer nreg = 2;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Four registers" oneof="2" id="iclass_four_registers" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="ldstruct-regcount" value="to-4reg"/>
+        <docvar key="mnemonic" value="AESEMC"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE_AES2" name="ARMv9.6"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_intx_crypto.sve_crypto_binary_multi4.aesemc_mz_zzi_4x1" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" name="i2" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="10" name="o2" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zm" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="3" name="Zdn" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="1" width="2" name="opc3" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+      </regdiagram>
+      <encoding name="aesemc_mz_zzi_4x1" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="AESEMC"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="ldstruct-regcount" value="to-4reg"/>
+        </docvars>
+        <asmtemplate><text>AESEMC  { </text><a hover="For the &quot;Four registers&quot; variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 4." link="Zdn1__2">&lt;Zdn1&gt;</a><text>.B-</text><a hover="Is the name of the fourth scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 4 plus 3." link="Zdn4">&lt;Zdn4&gt;</a><text>.B }, { </text><a hover="For the &quot;Four registers&quot; variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 4." link="Zdn1__2">&lt;Zdn1&gt;</a><text>.B-</text><a hover="Is the name of the fourth scalable vector register of the destination and first source multi-vector group, encoded as &quot;Zdn&quot; times 4 plus 3." link="Zdn4">&lt;Zdn4&gt;</a><text>.B }, </text><a hover="Is the name of the second source scalable vector register, encoded in the &quot;Zm&quot; field." link="Zm">&lt;Zm&gt;</a><text>.Q[</text><a hover="Is the round key index, in the range 0 to 3, encoded in the &quot;i2&quot; field." link="index_aes">&lt;index&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_intx_crypto.sve_crypto_binary_multi4.aesemc_mz_zzi_4x1" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE_AES2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);
+constant integer dn = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zdn:'00');
+integer index = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i2);
+constant integer nreg = 4;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="aesemc_mz_zzi_2x1" symboldefcount="1">
+      <symbol link="Zdn1">&lt;Zdn1&gt;</symbol>
+      <account encodedin="Zdn">
+        <intro>
+          <para>For the "Two registers" variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as "Zdn" times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="aesemc_mz_zzi_4x1" symboldefcount="2">
+      <symbol link="Zdn1__2">&lt;Zdn1&gt;</symbol>
+      <account encodedin="Zdn">
+        <intro>
+          <para>For the "Four registers" variant: is the name of the first scalable vector register of the destination and first source multi-vector group, encoded as "Zdn" times 4.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="aesemc_mz_zzi_2x1" symboldefcount="1">
+      <symbol link="Zdn2">&lt;Zdn2&gt;</symbol>
+      <account encodedin="Zdn">
+        <intro>
+          <para>Is the name of the second scalable vector register of the destination and first source multi-vector group, encoded as "Zdn" times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="aesemc_mz_zzi_2x1, aesemc_mz_zzi_4x1" symboldefcount="1">
+      <symbol link="Zm">&lt;Zm&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the second source scalable vector register, encoded in the "Zm" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="aesemc_mz_zzi_2x1, aesemc_mz_zzi_4x1" symboldefcount="1">
+      <symbol link="index_aes">&lt;index&gt;</symbol>
+      <account encodedin="i2">
+        <intro>
+          <para>Is the round key index, in the range 0 to 3, encoded in the "i2" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="aesemc_mz_zzi_4x1" symboldefcount="1">
+      <symbol link="Zdn4">&lt;Zdn4&gt;</symbol>
+      <account encodedin="Zdn">
+        <intro>
+          <para>Is the name of the fourth scalable vector register of the destination and first source multi-vector group, encoded as "Zdn" times 4 plus 3.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_intx_crypto.sve_crypto_binary_multi2.aesemc_mz_zzi_2x1" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">if IsFeatureImplemented(FEAT_SSVE_AES) then
+    <a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+else
+    <a link="impl-aarch64.CheckNonStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckNonStreamingSVEEnabled()">CheckNonStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+if VL == 128 then index = 0;
+if VL == 256 then index = index MOD 2;
+constant integer segments = VL DIV 128;
+constant bits(VL) operand2 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[m, VL];
+array [0..3] of bits(VL) results;
+
+for r = 0 to nreg-1
+    constant bits(VL) operand1 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[dn + r, VL];
+    for s = 0 to segments-1
+        constant integer keyindex = (s - (s MOD 4)) + index;
+        constant bits(128) res = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand1, s, 128] EOR <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand2, keyindex, 128];
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[results[r], s, 128] = <a link="impl-shared.AESMixColumns.1" file="shared_pseudocode.xml" hover="function: bits(128) AESMixColumns(bits (128) op)">AESMixColumns</a>(<a link="impl-shared.AESSubBytes.1" file="shared_pseudocode.xml" hover="function: bits(128) AESSubBytes(bits(128) op)">AESSubBytes</a>(<a link="impl-shared.AESShiftRows.1" file="shared_pseudocode.xml" hover="function: bits(128) AESShiftRows(bits(128) op)">AESShiftRows</a>(res)));
+
+
+for r = 0 to nreg-1
+    <a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[dn + r, VL] = results[r];</pstext></ps>
+  </ps_section>
+</instructionsection>

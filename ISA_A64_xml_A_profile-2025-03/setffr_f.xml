@@ -1,0 +1,146 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="setffr_f" title="SETFFR -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="SETFFR"/>
+  </docvars>
+  <heading>SETFFR</heading>
+  <desc>
+    <brief>
+      <para>Initialise the first-fault register to all true</para>
+    </brief>
+    <authored>
+      <para>Initialise the first-fault register (<asm-code>FFR</asm-code>) to all true
+prior to a sequence of first-fault or non-fault loads.  This instruction is unpredicated.</para>
+      <para>This instruction is illegal when executed in Streaming SVE mode, unless FEAT_SME_FA64 is implemented and enabled.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+    <sm_policy>SM_0_only</sm_policy>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE" oneof="1" id="iclass_sve" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="SETFFR"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE" name="PROFILE_A"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_pred_wrffr.sve_int_setffr.setffr_f_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="17" width="2" settings="2">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="4" settings="4">
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="11" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="8" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="4" width="5" settings="5">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+      </regdiagram>
+      <encoding name="setffr_f_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="SETFFR"/>
+          <docvar key="instr-class" value="sve"/>
+        </docvars>
+        <asmtemplate><text>SETFFR</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_pred_wrffr.sve_int_setffr.setffr_f_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all"/>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_pred_wrffr.sve_int_setffr.setffr_f_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckNonStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckNonStreamingSVEEnabled()">CheckNonStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+<a link="impl-aarch64.FFR.write.1" file="shared_pseudocode.xml" hover="accessor: FFR[integer width] = bits(width) value">FFR</a>[PL] = <a link="impl-shared.Ones.1" file="shared_pseudocode.xml" hover="function: bits(N) Ones(integer N)">Ones</a>(PL);</pstext></ps>
+  </ps_section>
+</instructionsection>

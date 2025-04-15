@@ -1,0 +1,220 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="sqrshru_z_mz4" title="SQRSHRU (four registers) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="mortlach2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="SQRSHRU"/>
+  </docvars>
+  <heading>SQRSHRU (four registers)</heading>
+  <desc>
+    <brief>
+      <para>Multi-vector signed saturating rounding shift right unsigned narrow by immediate</para>
+    </brief>
+    <authored>
+      <para>This instruction shifts right by an immediate value the signed integer value in each element of the
+four source vectors, and places the 
+ rounded results in the quarter-width destination
+elements. Each result element is saturated to the quarter-width
+N-bit element's unsigned integer range 0 to (2<sup>N</sup>)-1. The immediate shift amount is an unsigned value in the
+range 1 to number of bits per source element.</para>
+      <para>This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <sm_policy>SM_1_only</sm_policy>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SME2" oneof="1" id="iclass_sme2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="SQRSHRU"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2" name="ARMv9.3"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_multi_sve_3.mortlach_multi4_qrshr.sqrshru_z_mz4_" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="tsize" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="imm5" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="12" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="10" name="N" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="9" width="3" name="Zn" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="6" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="5" name="U" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="sqrshru_z_mz4_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="SQRSHRU"/>
+          <docvar key="instr-class" value="mortlach2"/>
+        </docvars>
+        <asmtemplate><text>SQRSHRU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__89">&lt;T&gt;</a><text>, { </text><a hover="Is the name of the first scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 4." link="Zn1__6">&lt;Zn1&gt;</a><text>.</text><a hover="Is the size specifier, " link="Tb__15">&lt;Tb&gt;</a><text>-</text><a hover="Is the name of the fourth scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 4 plus 3." link="Zn4__3">&lt;Zn4&gt;</a><text>.</text><a hover="Is the size specifier, " link="Tb__15">&lt;Tb&gt;</a><text> }, #</text><a hover="Is the immediate shift amount, in the range 1 to number of bits per source element, encoded in &quot;tsize:imm5&quot;." link="const__11">&lt;const&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_multi_sve_3.mortlach_multi4_qrshr.sqrshru_z_mz4_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+if tsize == '00' then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.HighestSetBit.1" file="shared_pseudocode.xml" hover="function: integer HighestSetBit(bits(N) x)">HighestSetBit</a>(tsize);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn:'00');
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer shift = (8 * esize) - <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(tsize:imm5);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="T__89">&lt;T&gt;</symbol>
+      <definition encodedin="tsize">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">tsize</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1x</entry>
+                <entry class="symbol">H</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="Zn1__6">&lt;Zn1&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the first scalable vector register of the source multi-vector group, encoded as "Zn" times 4.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="Tb__15">&lt;Tb&gt;</symbol>
+      <definition encodedin="tsize">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">tsize</entry>
+                <entry class="symbol">&lt;Tb&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1x</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="Zn4__3">&lt;Zn4&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the fourth scalable vector register of the source multi-vector group, encoded as "Zn" times 4 plus 3.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="sqrshru_z_mz4_" symboldefcount="1">
+      <symbol link="const__11">&lt;const&gt;</symbol>
+      <account encodedin="tsize:imm5">
+        <intro>
+          <para>Is the immediate shift amount, in the range 1 to number of bits per source element, encoded in "tsize:imm5".</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sme.mortlach_multi_sve_3.mortlach_multi4_qrshr.sqrshru_z_mz4_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckStreamingSVEEnabled()">CheckStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV (4 * esize);
+bits(VL) result;
+
+for r = 0 to 3
+    constant bits(VL) operand = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n+r, VL];
+    for e = 0 to elements-1
+        constant bits(4 * esize) element = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand, e, 4 * esize];
+        constant integer res = (<a link="impl-shared.SInt.1" file="shared_pseudocode.xml" hover="function: integer SInt(bits(N) x)">SInt</a>(element) + (1 &lt;&lt; (shift-1))) &gt;&gt; shift;
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, r*elements + e, esize] = <a link="impl-shared.UnsignedSat.2" file="shared_pseudocode.xml" hover="function: bits(N) UnsignedSat(integer i, integer N)">UnsignedSat</a>(res, esize);
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

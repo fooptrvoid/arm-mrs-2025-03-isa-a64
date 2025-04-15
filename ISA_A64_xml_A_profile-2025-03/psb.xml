@@ -1,0 +1,116 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="PSB" title="PSB -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="system"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="PSB"/>
+  </docvars>
+  <heading>PSB</heading>
+  <desc>
+    <brief>
+      <para>Profiling synchronization barrier</para>
+    </brief>
+    <authored>
+      <para>This instruction is a barrier that ensures that all existing
+profiling data for the current PE has been formatted, and profiling
+buffer addresses have been translated such that all writes to the
+profiling buffer have been initiated. A following <instruction>DSB</instruction>
+instruction completes when the writes to the profiling buffer have
+completed.</para>
+      <para>If <xref linkend="ARMARM_FEAT_SPE">FEAT_SPE</xref> is not implemented,
+this instruction executes as a <instruction>NOP</instruction>.</para>
+    </authored>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="System" oneof="1" id="iclass_system" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="system"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PSB"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SPE" name="PROFILE_A"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.control.hints.PSB_HC_hints" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="25" width="14" settings="14">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="11" width="4" name="CRm" usename="1" settings="4" psbits="xxxx">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="7" width="3" name="op2" usename="1" settings="3" psbits="xxx">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="4" width="5" settings="5">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+      </regdiagram>
+      <encoding name="PSB_HC_hints" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PSB"/>
+          <docvar key="instr-class" value="system"/>
+        </docvars>
+        <asmtemplate><text>PSB  CSYNC</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.control.hints.PSB_HC_hints" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SPE) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_NOP" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_NOP</a>);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all"/>
+  <ps_section howmany="1">
+    <ps name="A64.control.hints.PSB_HC_hints" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">if IsFeatureImplemented(FEAT_FGT) &amp;&amp; IsFeatureImplemented(FEAT_SPEv1p5) then
+    constant boolean trap_to_el2 = (PSTATE.EL IN {<a link="EL0" file="shared_pseudocode.xml" hover="constant bits(2) EL0 = '00'">EL0</a>, <a link="EL1" file="shared_pseudocode.xml" hover="constant bits(2) EL1 = '01'">EL1</a>} &amp;&amp; <a link="impl-shared.EL2Enabled.0" file="shared_pseudocode.xml" hover="function: boolean EL2Enabled()">EL2Enabled</a>() &amp;&amp;
+                                    !<a link="impl-shared.IsInHost.0" file="shared_pseudocode.xml" hover="function: boolean IsInHost()">IsInHost</a>() &amp;&amp;
+                                    (!<a link="impl-shared.HaveEL.1" file="shared_pseudocode.xml" hover="function: boolean HaveEL(bits(2) el)">HaveEL</a>(<a link="EL3" file="shared_pseudocode.xml" hover="constant bits(2) EL3 = '11'">EL3</a>) || SCR_EL3.FGTEn == '1') &amp;&amp;
+                                    HFGITR_EL2.PSBCSYNC == '1');
+    if trap_to_el2 then
+        <a link="ExceptionRecord" file="shared_pseudocode.xml" hover="type ExceptionRecord is ( Exception exceptype, IssType syndrome, FullAddress paddress, bits(64) vaddress, boolean ipavalid, boolean pavalid, bit NS, bits(56) ipaddress, boolean trappedsyscallinst)">ExceptionRecord</a> except = <a link="impl-shared.ExceptionSyndrome.1" file="shared_pseudocode.xml" hover="function: ExceptionRecord ExceptionSyndrome(Exception exceptype)">ExceptionSyndrome</a>(<a link="Exception_LDST64BTrap" file="shared_pseudocode.xml" hover="enumeration Exception { Exception_Uncategorized, Exception_WFxTrap, Exception_CP15RTTrap, Exception_CP15RRTTrap, Exception_CP14RTTrap, Exception_CP14DTTrap, Exception_CP14RRTTrap, Exception_AdvSIMDFPAccessTrap, Exception_FPIDTrap, Exception_LDST64BTrap,  Exception_PACTrap, Exception_IllegalState, Exception_SupervisorCall, Exception_HypervisorCall, Exception_MonitorCall, Exception_SystemRegisterTrap, Exception_ERetTrap, Exception_InstructionAbort, Exception_PCAlignment, Exception_DataAbort, Exception_NV2DataAbort, Exception_PACFail, Exception_SPAlignment, Exception_FPTrappedException, Exception_SError, Exception_Breakpoint, Exception_SoftwareStep, Exception_Watchpoint, Exception_NV2Watchpoint, Exception_SoftwareBreakpoint, Exception_VectorCatch, Exception_IRQ, Exception_SVEAccessTrap, Exception_SMEAccessTrap, Exception_TSTARTAccessTrap, Exception_GPC, Exception_BranchTarget, Exception_MemCpyMemSet, Exception_GCSFail, Exception_Profiling, Exception_SystemRegister128Trap, Exception_FIQ}">Exception_LDST64BTrap</a>); // to be renamed
+        except.syndrome.iss = 0x3&lt;24:0&gt;;
+        constant bits(64) preferred_exception_return = <a link="impl-shared.ThisInstrAddr.1" file="shared_pseudocode.xml" hover="function: bits(N) ThisInstrAddr(integer N)">ThisInstrAddr</a>(64);
+        constant integer vect_offset = 0x0;
+        <a link="AArch64.TakeException.4" file="shared_pseudocode.xml" hover="function: AArch64.TakeException(bits(2) target_el, ExceptionRecord exception_in, bits(64) preferred_exception_return, integer vect_offset_in)">AArch64.TakeException</a>(<a link="EL2" file="shared_pseudocode.xml" hover="constant bits(2) EL2 = '10'">EL2</a>, except, preferred_exception_return, vect_offset);
+
+<a link="impl-aarch64.ProfilingSynchronizationBarrier.0" file="shared_pseudocode.xml" hover="function: ProfilingSynchronizationBarrier()">ProfilingSynchronizationBarrier</a>();</pstext></ps>
+  </ps_section>
+</instructionsection>

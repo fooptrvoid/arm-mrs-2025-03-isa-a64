@@ -1,0 +1,340 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="bfmlal_za_zzw" title="BFMLAL (multiple vectors) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="mortlach2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="BFMLAL"/>
+  </docvars>
+  <heading>BFMLAL (multiple vectors)</heading>
+  <desc>
+    <brief>
+      <para>Multi-vector BFloat16 multiply-add long</para>
+    </brief>
+    <authored>
+      <para>This instruction widens all 16-bit BFloat16 elements in the
+two or four first and second source vectors to
+single-precision format, then multiplies the corresponding elements and destructively adds these
+values without intermediate rounding to the overlapping 32-bit
+single-precision elements of the ZA double-vector groups.</para>
+      <para>The double-vector
+group within each half of or each quarter of the ZA array is selected by the sum
+of the vector select register and offset range, modulo half or quarter the number of ZA array vectors.</para>
+      <para>The <syntax>vector group</syntax> symbol, <syntax>VGx2</syntax> or <syntax>VGx4</syntax>, indicates that
+the ZA operand consists of two or four ZA double-vector
+groups
+respectively. The vector group symbol is preferred
+for disassembly, but optional in assembler source code.</para>
+      <para>This instruction follows SME ZA-targeting floating-point behaviors.</para>
+      <para>This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <sm_policy>SM_1_only</sm_policy>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="2">
+      <txt>It has encodings from 2 classes:</txt>
+      <a href="#iclass_two_za_double_vectors">Two ZA double-vectors</a>
+      <txt> and </txt>
+      <a href="#iclass_four_za_double_vectors">Four ZA double-vectors</a>
+    </classesintro>
+    <iclass name="Two ZA double-vectors" oneof="2" id="iclass_two_za_double_vectors" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="BFMLAL"/>
+        <docvar key="sme-multireg" value="sme-vgx2-double"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2" name="ARMv9.3"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_multi_array_2a.mortlach_multi2_zz_za_fma_long_mm.bfmlal_za_zzw_2x2" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="4" name="Zm" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="16" width="2" settings="2">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="14" width="2" name="Rv" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="12" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="4" name="Zn" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="5" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="4" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="3" name="S" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="2" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="1" width="2" name="off2" usename="1">
+          <c colspan="2"/>
+        </box>
+      </regdiagram>
+      <encoding name="bfmlal_za_zzw_2x2" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="BFMLAL"/>
+          <docvar key="instr-class" value="mortlach2"/>
+          <docvar key="sme-multireg" value="sme-vgx2-double"/>
+        </docvars>
+        <asmtemplate><text>BFMLAL  ZA.S[</text><a hover="Is the 32-bit name of the vector select register W8-W11, encoded in the &quot;Rv&quot; field." link="Wv">&lt;Wv&gt;</a><text>, </text><a hover="For the &quot;Four ZA double-vectors&quot; and &quot;Two ZA double-vectors&quot; variants: is the first vector select offset, encoded as &quot;off2&quot; field times 2." link="offs1__2">&lt;offs1&gt;</a><text>:</text><a hover="For the &quot;Four ZA double-vectors&quot; and &quot;Two ZA double-vectors&quot; variants: is the second vector select offset, encoded as &quot;off2&quot; field times 2 plus 1." link="offs2__2">&lt;offs2&gt;</a><text>{, VGx2}], { </text><a hover="For the &quot;Two ZA double-vectors&quot; variant: is the name of the first scalable vector register of the first source multi-vector group, encoded as &quot;Zn&quot; times 2." link="Zn1__2">&lt;Zn1&gt;</a><text>.H-</text><a hover="Is the name of the second scalable vector register of the first source multi-vector group, encoded as &quot;Zn&quot; times 2 plus 1." link="Zn2__2">&lt;Zn2&gt;</a><text>.H }, { </text><a hover="For the &quot;Two ZA double-vectors&quot; variant: is the name of the first scalable vector register of the second source multi-vector group, encoded as &quot;Zm&quot; times 2." link="Zm1__3">&lt;Zm1&gt;</a><text>.H-</text><a hover="Is the name of the second scalable vector register of the second source multi-vector group, encoded as &quot;Zm&quot; times 2 plus 1." link="Zm2__2">&lt;Zm2&gt;</a><text>.H }</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_multi_array_2a.mortlach_multi2_zz_za_fma_long_mm.bfmlal_za_zzw_2x2" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer v = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>('010':Rv);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn:'0');
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm:'0');
+constant integer offset = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(off2:'0');
+constant integer nreg = 2;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Four ZA double-vectors" oneof="2" id="iclass_four_za_double_vectors" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="BFMLAL"/>
+        <docvar key="sme-multireg" value="sme-vgx4-double"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2" name="ARMv9.3"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_multi_array_2b.mortlach_multi4_zz_za_fma_long_mm.bfmlal_za_zzw_4x4" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="3" name="Zm" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="17" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="16" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="14" width="2" name="Rv" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="12" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="3" name="Zn" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="6" width="2" settings="2">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="4" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="3" name="S" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="2" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="1" width="2" name="off2" usename="1">
+          <c colspan="2"/>
+        </box>
+      </regdiagram>
+      <encoding name="bfmlal_za_zzw_4x4" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="BFMLAL"/>
+          <docvar key="instr-class" value="mortlach2"/>
+          <docvar key="sme-multireg" value="sme-vgx4-double"/>
+        </docvars>
+        <asmtemplate><text>BFMLAL  ZA.S[</text><a hover="Is the 32-bit name of the vector select register W8-W11, encoded in the &quot;Rv&quot; field." link="Wv">&lt;Wv&gt;</a><text>, </text><a hover="For the &quot;Four ZA double-vectors&quot; and &quot;Two ZA double-vectors&quot; variants: is the first vector select offset, encoded as &quot;off2&quot; field times 2." link="offs1__2">&lt;offs1&gt;</a><text>:</text><a hover="For the &quot;Four ZA double-vectors&quot; and &quot;Two ZA double-vectors&quot; variants: is the second vector select offset, encoded as &quot;off2&quot; field times 2 plus 1." link="offs2__2">&lt;offs2&gt;</a><text>{, VGx4}], { </text><a hover="For the &quot;Four ZA double-vectors&quot; variant: is the name of the first scalable vector register of the first source multi-vector group, encoded as &quot;Zn&quot; times 4." link="Zn1__3">&lt;Zn1&gt;</a><text>.H-</text><a hover="Is the name of the fourth scalable vector register of the first source multi-vector group, encoded as &quot;Zn&quot; times 4 plus 3." link="Zn4__2">&lt;Zn4&gt;</a><text>.H }, { </text><a hover="For the &quot;Four ZA double-vectors&quot; variant: is the name of the first scalable vector register of the second source multi-vector group, encoded as &quot;Zm&quot; times 4." link="Zm1__4">&lt;Zm1&gt;</a><text>.H-</text><a hover="Is the name of the fourth scalable vector register of the second source multi-vector group, encoded as &quot;Zm&quot; times 4 plus 3." link="Zm4__2">&lt;Zm4&gt;</a><text>.H }</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_multi_array_2b.mortlach_multi4_zz_za_fma_long_mm.bfmlal_za_zzw_4x4" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer v = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>('010':Rv);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn:'00');
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm:'00');
+constant integer offset = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(off2:'0');
+constant integer nreg = 4;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="bfmlal_za_zzw_2x2, bfmlal_za_zzw_4x4" symboldefcount="1">
+      <symbol link="Wv">&lt;Wv&gt;</symbol>
+      <account encodedin="Rv">
+        <intro>
+          <para>Is the 32-bit name of the vector select register W8-W11, encoded in the "Rv" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2, bfmlal_za_zzw_4x4" symboldefcount="1">
+      <symbol link="offs1__2">&lt;offs1&gt;</symbol>
+      <account encodedin="off2">
+        <intro>
+          <para>Is the first vector select offset, encoded as "off2" field times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2, bfmlal_za_zzw_4x4" symboldefcount="1">
+      <symbol link="offs2__2">&lt;offs2&gt;</symbol>
+      <account encodedin="off2">
+        <intro>
+          <para>Is the second vector select offset, encoded as "off2" field times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2" symboldefcount="1">
+      <symbol link="Zn1__2">&lt;Zn1&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>For the "Two ZA double-vectors" variant: is the name of the first scalable vector register of the first source multi-vector group, encoded as "Zn" times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_4x4" symboldefcount="2">
+      <symbol link="Zn1__3">&lt;Zn1&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>For the "Four ZA double-vectors" variant: is the name of the first scalable vector register of the first source multi-vector group, encoded as "Zn" times 4.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2" symboldefcount="1">
+      <symbol link="Zn2__2">&lt;Zn2&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the second scalable vector register of the first source multi-vector group, encoded as "Zn" times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2" symboldefcount="1">
+      <symbol link="Zm1__3">&lt;Zm1&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>For the "Two ZA double-vectors" variant: is the name of the first scalable vector register of the second source multi-vector group, encoded as "Zm" times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_4x4" symboldefcount="2">
+      <symbol link="Zm1__4">&lt;Zm1&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>For the "Four ZA double-vectors" variant: is the name of the first scalable vector register of the second source multi-vector group, encoded as "Zm" times 4.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_2x2" symboldefcount="1">
+      <symbol link="Zm2__2">&lt;Zm2&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the second scalable vector register of the second source multi-vector group, encoded as "Zm" times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_4x4" symboldefcount="1">
+      <symbol link="Zn4__2">&lt;Zn4&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the fourth scalable vector register of the first source multi-vector group, encoded as "Zn" times 4 plus 3.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlal_za_zzw_4x4" symboldefcount="1">
+      <symbol link="Zm4__2">&lt;Zm4&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the fourth scalable vector register of the second source multi-vector group, encoded as "Zm" times 4 plus 3.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sme.mortlach_multi_array_2a.mortlach_multi2_zz_za_fma_long_mm.bfmlal_za_zzw_2x2" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckStreamingSVEAndZAEnabled.0" file="shared_pseudocode.xml" hover="function: CheckStreamingSVEAndZAEnabled()">CheckStreamingSVEAndZAEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV 32;
+constant integer vectors = VL DIV 8;
+constant integer vstride = vectors DIV nreg;
+constant bits(32) vbase = <a link="impl-aarch64.X.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) X[integer n, integer width]">X</a>[v, 32];
+integer vec = (<a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(vbase) + offset) MOD vstride;
+bits(VL) result;
+vec = vec - (vec MOD 2);
+
+for r = 0 to nreg-1
+    constant bits(VL) op1 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n+r, VL];
+    constant bits(VL) op2 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[m+r, VL];
+    for i = 0 to 1
+        constant bits(VL) op3 = <a link="impl-aarch64.ZAvector.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) ZAvector[integer index, integer width]">ZAvector</a>[vec + i, VL];
+        for e = 0 to elements-1
+            constant bits(16) elem1 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op1, 2 * e + i, 16];
+            constant bits(16) elem2 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op2, 2 * e + i, 16];
+            constant bits(32) elem3 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op3, e, 32];
+            <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, 32] = <a link="impl-shared.BFMulAddH_ZA.4" file="shared_pseudocode.xml" hover="function: bits(32) BFMulAddH_ZA(bits(32) addend, bits(16) op1, bits(16) op2, FPCR_Type fpcr)">BFMulAddH_ZA</a>(elem3, elem1, elem2, FPCR);
+        <a link="impl-aarch64.ZAvector.write.2" file="shared_pseudocode.xml" hover="accessor: ZAvector[integer index, integer width] = bits(width) value">ZAvector</a>[vec + i, VL] = result;
+    vec = vec + vstride;</pstext></ps>
+  </ps_section>
+</instructionsection>

@@ -1,0 +1,296 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="compact_z_p_z" title="COMPACT -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="COMPACT"/>
+  </docvars>
+  <heading>COMPACT</heading>
+  <desc>
+    <brief>
+      <para>Copy active vector elements to lower-numbered elements</para>
+    </brief>
+    <authored>
+      <para>In order of increasing element number, pack active elements
+from the source vector into increasing consecutive elements of the destination vector,
+setting any remaining elements to zero.</para>
+      <para>This instruction is illegal when executed in Streaming SVE mode, unless FEAT_SME_FA64 is
+implemented and enabled, or FEAT_SME2p2 is implemented.</para>
+    </authored>
+    <predicated>True</predicated>
+    <sm_policy>SM_0_or_SME2p2</sm_policy>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="2">
+      <txt>It has encodings from 2 classes:</txt>
+      <a href="#iclass_byte_and_halfword">Byte and halfword</a>
+      <txt> and </txt>
+      <a href="#iclass_word_and_doubleword">Word and doubleword</a>
+    </classesintro>
+    <iclass name="Byte and halfword" oneof="2" id="iclass_byte_and_halfword" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="COMPACT"/>
+        <docvar key="sve-esize" value="esize-byte-halfword"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_pred.sve_int_perm_compact.compact_z_p_z_s">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="sz" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="19" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="13" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="compact_z_p_z_s" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="COMPACT"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-esize" value="esize-byte-halfword"/>
+        </docvars>
+        <asmtemplate><text>COMPACT  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="For the &quot;Byte and halfword&quot; variant: is the size specifier, " link="T_BH">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.</text><a hover="For the &quot;Byte and halfword&quot; variant: is the size specifier, " link="T_BH">&lt;T&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_pred.sve_int_perm_compact.compact_z_p_z_s" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(sz);
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Word and doubleword" oneof="2" id="iclass_word_and_doubleword" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="COMPACT"/>
+        <docvar key="sve-esize" value="esize-word-doubleword"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME2p2" name="FEAT_SVE || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_pred.sve_int_perm_compact.compact_z_p_z_">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="sz" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="19" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="13" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="compact_z_p_z_" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="COMPACT"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-esize" value="esize-word-doubleword"/>
+        </docvars>
+        <asmtemplate><text>COMPACT  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="For the &quot;Word and doubleword&quot; variant: is the size specifier, " link="T_SD">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.</text><a hover="For the &quot;Word and doubleword&quot; variant: is the size specifier, " link="T_SD">&lt;T&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_pred.sve_int_perm_compact.compact_z_p_z_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 32 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(sz);
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="compact_z_p_z_s, compact_z_p_z_" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="compact_z_p_z_s" symboldefcount="1">
+      <symbol link="T_BH">&lt;T&gt;</symbol>
+      <definition encodedin="sz">
+        <intro>For the "Byte and halfword" variant: is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">sz</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="symbol">H</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="compact_z_p_z_" symboldefcount="2">
+      <symbol link="T_SD">&lt;T&gt;</symbol>
+      <definition encodedin="sz">
+        <intro>For the "Word and doubleword" variant: is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">sz</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="compact_z_p_z_s, compact_z_p_z_" symboldefcount="1">
+      <symbol link="Pg">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register P0-P7, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="compact_z_p_z_s, compact_z_p_z_" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_perm_pred.sve_int_perm_compact.compact_z_p_z_s" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">if IsFeatureImplemented(FEAT_SME2p2) then <a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>(); else <a link="impl-aarch64.CheckNonStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckNonStreamingSVEEnabled()">CheckNonStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer elements = VL DIV esize;
+constant bits(PL) mask = <a link="impl-aarch64.P.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) P[integer n, integer width]">P</a>[g, PL];
+constant bits(VL) operand1 = if <a link="impl-aarch64.AnyActiveElement.2" file="shared_pseudocode.xml" hover="function: boolean AnyActiveElement(bits(N) mask, integer esize)">AnyActiveElement</a>(mask, esize) then <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+bits(VL) result = <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+integer x = 0;
+
+for e = 0 to elements-1
+    if <a link="impl-aarch64.ActivePredicateElement.3" file="shared_pseudocode.xml" hover="function: boolean ActivePredicateElement(bits(N) pred, integer e, integer esize)">ActivePredicateElement</a>(mask, e, esize) then
+        constant bits(esize) element = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand1, e, esize];
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, x, esize] = element;
+        x = x + 1;
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

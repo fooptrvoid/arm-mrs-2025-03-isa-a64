@@ -1,0 +1,378 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="CBcc_imm" title="CB&lt;cc&gt; (immediate) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="general"/>
+    <docvar key="isa" value="A64"/>
+  </docvars>
+  <heading>CB&lt;cc&gt; (immediate)</heading>
+  <desc>
+    <brief>
+      <para>Compare register with immediate and branch</para>
+    </brief>
+    <authored>
+      <para>This instruction compares the value in a register with an immediate,
+and conditionally branches to a label at a PC-relative offset if the
+comparison is true.
+It provides a hint that this is not a subroutine call or return.
+This instruction does not affect the condition flags.</para>
+    </authored>
+  </desc>
+  <alias_list howmany="4">
+    <alias_list_intro>This instruction is used by the aliases </alias_list_intro>
+    <aliasref aliaspageid="CBGE_imm" aliasfile="cbge_imm.xml" hover="Compare signed greater than or equal immediate and branch" punct=", ">
+      <text>CBGE (immediate)</text>
+      <aliaspref>Never</aliaspref>
+    </aliasref>
+    <aliasref aliaspageid="CBHS_imm" aliasfile="cbhs_imm.xml" hover="Compare unsigned greater than or equal immediate and branch" punct=", ">
+      <text>CBHS (immediate)</text>
+      <aliaspref>Never</aliaspref>
+    </aliasref>
+    <aliasref aliaspageid="CBLE_imm" aliasfile="cble_imm.xml" hover="Compare signed less than or equal immediate and branch" punct=" and ">
+      <text>CBLE (immediate)</text>
+      <aliaspref>Never</aliaspref>
+    </aliasref>
+    <aliasref aliaspageid="CBLS_imm" aliasfile="cbls_imm.xml" hover="Compare unsigned lower than or equal immediate and branch" punct=".">
+      <text>CBLS (immediate)</text>
+      <aliaspref>Never</aliaspref>
+    </aliasref>
+    <alias_list_outro>
+      <text>  See </text>
+      <aliastablelink/>
+      <text> below for details of when each alias is preferred.</text>
+    </alias_list_outro>
+  </alias_list>
+  <classes>
+    <iclass name="Branch" oneof="1" id="iclass_branch" no_encodings="12" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="general"/>
+        <docvar key="isa" value="A64"/>
+      </docvars>
+      <iclassintro count="12"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_CMPBR" name="ARMv9.6"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.control.compbranch_imm.CBGT_32_imm">
+        <box hibit="31" width="1" name="sf" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="30" width="7" settings="7">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="20" width="6" name="imm6" usename="1">
+          <c colspan="6"/>
+        </box>
+        <box hibit="14" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="13" width="9" name="imm9" usename="1">
+          <c colspan="9"/>
+        </box>
+        <box hibit="4" width="5" name="Rt" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="CBGT_32_imm" oneofinclass="12" oneof="12" label="32-bit greater than" bitdiffs="sf == 0 &amp;&amp; cc == 000">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBGT"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="gt"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBGT  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBLT_32_imm" oneofinclass="12" oneof="12" label="32-bit less than" bitdiffs="sf == 0 &amp;&amp; cc == 001">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBLT"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="lt"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBLT  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBHI_32_imm" oneofinclass="12" oneof="12" label="32-bit higher" bitdiffs="sf == 0 &amp;&amp; cc == 010">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBHI"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="hi"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBHI  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBLO_32_imm" oneofinclass="12" oneof="12" label="32-bit lower" bitdiffs="sf == 0 &amp;&amp; cc == 011">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBLO"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="lo"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBLO  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBEQ_32_imm" oneofinclass="12" oneof="12" label="32-bit equal" bitdiffs="sf == 0 &amp;&amp; cc == 110">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBEQ"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="eq"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBEQ  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBNE_32_imm" oneofinclass="12" oneof="12" label="32-bit not equal" bitdiffs="sf == 0 &amp;&amp; cc == 111">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="32"/>
+          <docvar key="mnemonic" value="CBNE"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="ne"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBNE  </text><a hover="Is the 32-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="WtOrWZR">&lt;Wt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBGT_64_imm" oneofinclass="12" oneof="12" label="64-bit greater than" bitdiffs="sf == 1 &amp;&amp; cc == 000">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBGT"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="gt"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBGT  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBLT_64_imm" oneofinclass="12" oneof="12" label="64-bit less than" bitdiffs="sf == 1 &amp;&amp; cc == 001">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBLT"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="lt"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBLT  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBHI_64_imm" oneofinclass="12" oneof="12" label="64-bit higher" bitdiffs="sf == 1 &amp;&amp; cc == 010">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBHI"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="hi"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBHI  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBLO_64_imm" oneofinclass="12" oneof="12" label="64-bit lower" bitdiffs="sf == 1 &amp;&amp; cc == 011">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBLO"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="lo"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBLO  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBEQ_64_imm" oneofinclass="12" oneof="12" label="64-bit equal" bitdiffs="sf == 1 &amp;&amp; cc == 110">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBEQ"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="eq"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <asmtemplate><text>CBEQ  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <encoding name="CBNE_64_imm" oneofinclass="12" oneof="12" label="64-bit not equal" bitdiffs="sf == 1 &amp;&amp; cc == 111">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="datatype" value="64"/>
+          <docvar key="mnemonic" value="CBNE"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="sve-compare-type" value="ne"/>
+        </docvars>
+        <box hibit="31" width="1" name="sf">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="3" name="cc">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <asmtemplate><text>CBNE  </text><a hover="Is the 64-bit name of the general-purpose register to be tested, encoded in the &quot;Rt&quot; field." link="XtOrXZR">&lt;Xt&gt;</a><text>, #</text><a hover="Is an unsigned immediate, in the range 0 to 63, encoded in the &quot;imm6&quot; field." link="cbr_uimm">&lt;imm&gt;</a><text>, </text><a hover="Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as &quot;imm9&quot; times 4." link="imm9_offset">&lt;label&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.control.compbranch_imm.CBGT_32_imm" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_CMPBR) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer datasize = 32 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(sf);
+constant integer t = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rt);
+constant bits(64) offset = <a link="impl-shared.SignExtend.2" file="shared_pseudocode.xml" hover="function: bits(N) SignExtend(bits(M) x, integer N)">SignExtend</a>(imm9:'00', 64);
+<a link="CmpOp" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">CmpOp</a> op;
+boolean unsigned;
+
+case cc of
+    when '000' op = <a link="Cmp_GT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_GT</a>; unsigned = FALSE;
+    when '001' op = <a link="Cmp_LT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_LT</a>; unsigned = FALSE;
+    when '010' op = <a link="Cmp_GT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_GT</a>; unsigned = TRUE;
+    when '011' op = <a link="Cmp_LT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_LT</a>; unsigned = TRUE;
+    when '110' op = <a link="Cmp_EQ" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_EQ</a>; unsigned = TRUE;
+    when '111' op = <a link="Cmp_NE" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_NE</a>; unsigned = TRUE;
+    otherwise <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer value2 = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(imm6);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="CBGT_32_imm, CBLT_32_imm, CBHI_32_imm, CBLO_32_imm, CBEQ_32_imm, CBNE_32_imm" symboldefcount="1">
+      <symbol link="WtOrWZR">&lt;Wt&gt;</symbol>
+      <account encodedin="Rt">
+        <intro>
+          <para>Is the 32-bit name of the general-purpose register to be tested, encoded in the "Rt" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="CBGT_32_imm, CBLT_32_imm, CBHI_32_imm, CBLO_32_imm, CBEQ_32_imm, CBNE_32_imm, CBGT_64_imm, CBLT_64_imm, CBHI_64_imm, CBLO_64_imm, CBEQ_64_imm, CBNE_64_imm" symboldefcount="1">
+      <symbol link="cbr_uimm">&lt;imm&gt;</symbol>
+      <account encodedin="imm6">
+        <intro>
+          <para>Is an unsigned immediate, in the range 0 to 63, encoded in the "imm6" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="CBGT_32_imm, CBLT_32_imm, CBHI_32_imm, CBLO_32_imm, CBEQ_32_imm, CBNE_32_imm, CBGT_64_imm, CBLT_64_imm, CBHI_64_imm, CBLO_64_imm, CBEQ_64_imm, CBNE_64_imm" symboldefcount="1">
+      <symbol link="imm9_offset">&lt;label&gt;</symbol>
+      <account encodedin="imm9">
+        <intro>
+          <para>Is the program label to be conditionally branched to. Its offset from the address of this instruction, in the range -1024 to 1020, is encoded as "imm9" times 4.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="CBGT_64_imm, CBLT_64_imm, CBHI_64_imm, CBLO_64_imm, CBEQ_64_imm, CBNE_64_imm" symboldefcount="1">
+      <symbol link="XtOrXZR">&lt;Xt&gt;</symbol>
+      <account encodedin="Rt">
+        <intro>
+          <para>Is the 64-bit name of the general-purpose register to be tested, encoded in the "Rt" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <aliastablehook anchor="aliasconditions">Alias Conditions</aliastablehook>
+  <ps_section howmany="1">
+    <ps name="A64.control.compbranch_imm.CBGT_32_imm" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">constant bits(datasize) operand1 = <a link="impl-aarch64.X.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) X[integer n, integer width]">X</a>[t, datasize];
+constant boolean branch_conditional = TRUE;
+
+constant integer value1 = <a link="impl-shared.Int.2" file="shared_pseudocode.xml" hover="function: integer Int(bits(N) x, boolean unsigned)">Int</a>(operand1, unsigned);
+boolean cond;
+case op of
+    when <a link="Cmp_EQ" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_EQ</a> cond = value1 == value2;
+    when <a link="Cmp_NE" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_NE</a> cond = value1 != value2;
+    when <a link="Cmp_GE" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_GE</a> cond = value1 &gt;= value2;
+    when <a link="Cmp_LT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_LT</a> cond = value1 &lt;  value2;
+    when <a link="Cmp_GT" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_GT</a> cond = value1 &gt;  value2;
+    when <a link="Cmp_LE" file="shared_pseudocode.xml" hover="enumeration CmpOp { Cmp_EQ, Cmp_NE, Cmp_GE, Cmp_GT, Cmp_LT, Cmp_LE, Cmp_UN }">Cmp_LE</a> cond = value1 &lt;= value2;
+
+if cond then
+    <a link="impl-shared.BranchTo.3" file="shared_pseudocode.xml" hover="function: BranchTo(bits(N) target, BranchType branch_type, boolean branch_conditional)">BranchTo</a>(<a link="impl-aarch64.PC64.read.none" file="shared_pseudocode.xml" hover="accessor: bits(64) PC64">PC64</a> + offset, <a link="BranchType_DIR" file="shared_pseudocode.xml" hover="enumeration BranchType { BranchType_DIRCALL, BranchType_INDCALL, BranchType_ERET, BranchType_DBGEXIT, BranchType_RET, BranchType_DIR, BranchType_INDIR, BranchType_EXCEPTION, BranchType_TMFAIL, BranchType_RESET, BranchType_UNKNOWN}">BranchType_DIR</a>, branch_conditional);
+else
+    <a link="impl-shared.BranchNotTaken.2" file="shared_pseudocode.xml" hover="function: BranchNotTaken(BranchType branchtype, boolean branch_conditional)">BranchNotTaken</a>(<a link="BranchType_DIR" file="shared_pseudocode.xml" hover="enumeration BranchType { BranchType_DIRCALL, BranchType_INDCALL, BranchType_ERET, BranchType_DBGEXIT, BranchType_RET, BranchType_DIR, BranchType_INDIR, BranchType_EXCEPTION, BranchType_TMFAIL, BranchType_RESET, BranchType_UNKNOWN}">BranchType_DIR</a>, branch_conditional);</pstext></ps>
+  </ps_section>
+</instructionsection>

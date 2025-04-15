@@ -1,0 +1,1324 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="fcvtzu_z_p_z" title="FCVTZU -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="FCVTZU"/>
+  </docvars>
+  <heading>FCVTZU</heading>
+  <desc>
+    <brief>
+      <para>Floating-point convert to unsigned integer, rounding toward zero (predicated)</para>
+    </brief>
+    <authored>
+      <para>Convert to the unsigned integer nearer to zero from
+each active floating-point element of the source vector,
+and place the results in the corresponding elements of the destination vector. 
+Inactive elements in the destination vector register remain unmodified or
+are set to zero, depending on whether merging or zeroing
+predication is selected.</para>
+      <para>If the input and result types have a different size
+the smaller type is held unpacked in the least
+significant bits of elements of the larger size. When the
+input is the smaller type the upper bits of each source
+element are ignored. When the result is the smaller type
+the results are
+zero-extended
+to fill each destination element.</para>
+    </authored>
+    <predicated>True</predicated>
+    <takes_movprfx>True</takes_movprfx>
+    <takes_pred_movprfx>True</takes_pred_movprfx>
+    <takes_merge_movprfx>True</takes_merge_movprfx>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_titles>
+        <operationalnote_title>Half-precision to 16-bit, merging</operationalnote_title>
+        <operationalnote_title>Half-precision to 32-bit, merging</operationalnote_title>
+        <operationalnote_title>Half-precision to 64-bit, merging</operationalnote_title>
+        <operationalnote_title>Single-precision to 32-bit, merging</operationalnote_title>
+        <operationalnote_title>Single-precision to 64-bit, merging</operationalnote_title>
+        <operationalnote_title>Double-precision to 32-bit, merging</operationalnote_title>
+        <operationalnote_title>Double-precision to 64-bit, merging</operationalnote_title>
+      </operationalnote_titles>
+      <operationalnote_content>
+        <para>The merging variant of this instruction might be immediately preceded in program order by a <instruction>MOVPRFX</instruction> instruction. The <instruction>MOVPRFX</instruction> must conform to all of the following requirements, otherwise the behavior of the <instruction>MOVPRFX</instruction> and the merging variant of this instruction is <arm-defined-word>CONSTRAINED UNPREDICTABLE</arm-defined-word>:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> can be predicated or unpredicated.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the same governing predicate register as the merging variant this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>A predicated <instruction>MOVPRFX</instruction> must use the larger of the destination element size and first source element size in the preferred disassembly of the merging variant of this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> must specify the same destination register as the merging variant of this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The destination register must not refer to architectural register state referenced by any other source operand register of the merging variant of this instruction.</content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="14">
+      <txt>It has encodings from 14 classes:</txt>
+      <a href="#iclass_half_precision_to_16_bit_merging">Half-precision to 16-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_half_precision_to_16_bit_zeroing">Half-precision to 16-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_half_precision_to_32_bit_merging">Half-precision to 32-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_half_precision_to_32_bit_zeroing">Half-precision to 32-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_half_precision_to_64_bit_merging">Half-precision to 64-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_half_precision_to_64_bit_zeroing">Half-precision to 64-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_single_precision_to_32_bit_merging">Single-precision to 32-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_single_precision_to_32_bit_zeroing">Single-precision to 32-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_single_precision_to_64_bit_merging">Single-precision to 64-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_single_precision_to_64_bit_zeroing">Single-precision to 64-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_double_precision_to_32_bit_merging">Double-precision to 32-bit, merging</a>
+      <txt>, </txt>
+      <a href="#iclass_double_precision_to_32_bit_zeroing">Double-precision to 32-bit, zeroing</a>
+      <txt>, </txt>
+      <a href="#iclass_double_precision_to_64_bit_merging">Double-precision to 64-bit, merging</a>
+      <txt> and </txt>
+      <a href="#iclass_double_precision_to_64_bit_zeroing">Double-precision to 64-bit, zeroing</a>
+    </classesintro>
+    <iclass name="Half-precision to 16-bit, merging" oneof="14" id="iclass_half_precision_to_16_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-16-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162h" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162h" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-16-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.H, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162h" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 16;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 16;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Half-precision to 16-bit, zeroing" oneof="14" id="iclass_half_precision_to_16_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-16-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162hz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162hz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-16-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.H, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162hz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 16;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 16;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Half-precision to 32-bit, merging" oneof="14" id="iclass_half_precision_to_32_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-32-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162w" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162w" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-32-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162w" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 32;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Half-precision to 32-bit, zeroing" oneof="14" id="iclass_half_precision_to_32_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-32-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162wz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162wz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-32-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162wz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 32;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Half-precision to 64-bit, merging" oneof="14" id="iclass_half_precision_to_64_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-64-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162x" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162x" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-64-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162x" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Half-precision to 64-bit, zeroing" oneof="14" id="iclass_half_precision_to_64_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="half-to-64-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162xz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_fp162xz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="half-to-64-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.H</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_fp162xz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 16;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Single-precision to 32-bit, merging" oneof="14" id="iclass_single_precision_to_32_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="single-to-32-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_s2w" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_s2w" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="single-to-32-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.S</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_s2w" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 32;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 32;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Single-precision to 32-bit, zeroing" oneof="14" id="iclass_single_precision_to_32_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="single-to-32-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_s2wz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_s2wz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="single-to-32-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.S</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_s2wz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 32;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 32;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Single-precision to 64-bit, merging" oneof="14" id="iclass_single_precision_to_64_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="single-to-64-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_s2x" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_s2x" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="single-to-64-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.S</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_s2x" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 32;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Single-precision to 64-bit, zeroing" oneof="14" id="iclass_single_precision_to_64_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="single-to-64-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_s2xz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_s2xz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="single-to-64-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.S</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_s2xz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 32;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Double-precision to 32-bit, merging" oneof="14" id="iclass_double_precision_to_32_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="double-to-32-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_d2w" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_d2w" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="double-to-32-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.D</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_d2w" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 64;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Double-precision to 32-bit, zeroing" oneof="14" id="iclass_double_precision_to_32_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="double-to-32-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_d2wz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_d2wz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="double-to-32-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.S, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.D</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_d2wz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 64;
+constant integer d_esize = 32;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Double-precision to 64-bit, merging" oneof="14" id="iclass_double_precision_to_64_bit_merging" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="double-to-64-merge"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_d2x" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_d2x" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="double-to-64-merge"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/M, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.D</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_d2x" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 64;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Double-precision to 64-bit, zeroing" oneof="14" id="iclass_double_precision_to_64_bit_zeroing" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FCVTZU"/>
+        <docvar key="sve-convert-type" value="double-to-64-zero"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p2 || FEAT_SME2p2" name="FEAT_SVE2p2 || FEAT_SME2p2"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_d2xz" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" settings="2">
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="15" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="14" name="o3" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="13" name="int_U" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fcvtzu_z_p_z_d2xz" oneofinclass="1" oneof="14" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FCVTZU"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="sve-convert-type" value="double-to-64-zero"/>
+        </docvars>
+        <asmtemplate><text>FCVTZU  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.D, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>/Z, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.D</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_zeroing_unary.sve_fp_z2op_p_zd_d.fcvtzu_z_p_z_d2xz" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p2) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p2) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 64;
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant integer s_esize = 64;
+constant integer d_esize = 64;
+constant boolean unsigned = TRUE;
+constant <a link="FPRounding" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding</a> rounding = <a link="FPRounding_ZERO" file="shared_pseudocode.xml" hover="enumeration FPRounding  {FPRounding_TIEEVEN, FPRounding_POSINF, FPRounding_NEGINF,  FPRounding_ZERO, FPRounding_TIEAWAY, FPRounding_ODD}">FPRounding_ZERO</a>;
+constant boolean merging = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="fcvtzu_z_p_z_fp162h, fcvtzu_z_p_z_fp162hz, fcvtzu_z_p_z_fp162w, fcvtzu_z_p_z_fp162wz, fcvtzu_z_p_z_fp162x, fcvtzu_z_p_z_fp162xz, fcvtzu_z_p_z_s2w, fcvtzu_z_p_z_s2wz, fcvtzu_z_p_z_s2x, fcvtzu_z_p_z_s2xz, fcvtzu_z_p_z_d2w, fcvtzu_z_p_z_d2wz, fcvtzu_z_p_z_d2x, fcvtzu_z_p_z_d2xz" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fcvtzu_z_p_z_fp162h, fcvtzu_z_p_z_fp162hz, fcvtzu_z_p_z_fp162w, fcvtzu_z_p_z_fp162wz, fcvtzu_z_p_z_fp162x, fcvtzu_z_p_z_fp162xz, fcvtzu_z_p_z_s2w, fcvtzu_z_p_z_s2wz, fcvtzu_z_p_z_s2x, fcvtzu_z_p_z_s2xz, fcvtzu_z_p_z_d2w, fcvtzu_z_p_z_d2wz, fcvtzu_z_p_z_d2x, fcvtzu_z_p_z_d2xz" symboldefcount="1">
+      <symbol link="Pg">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register P0-P7, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fcvtzu_z_p_z_fp162h, fcvtzu_z_p_z_fp162hz, fcvtzu_z_p_z_fp162w, fcvtzu_z_p_z_fp162wz, fcvtzu_z_p_z_fp162x, fcvtzu_z_p_z_fp162xz, fcvtzu_z_p_z_s2w, fcvtzu_z_p_z_s2wz, fcvtzu_z_p_z_s2x, fcvtzu_z_p_z_s2xz, fcvtzu_z_p_z_d2w, fcvtzu_z_p_z_d2wz, fcvtzu_z_p_z_d2x, fcvtzu_z_p_z_d2xz" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_fp_unary.sve_fp_2op_p_zd_d.fcvtzu_z_p_z_fp162h" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer elements = VL DIV esize;
+constant bits(PL) mask = <a link="impl-aarch64.P.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) P[integer n, integer width]">P</a>[g, PL];
+constant bits(VL) operand = if <a link="impl-aarch64.AnyActiveElement.2" file="shared_pseudocode.xml" hover="function: boolean AnyActiveElement(bits(N) mask, integer esize)">AnyActiveElement</a>(mask, esize) then <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+bits(VL) result = if merging then <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[d, VL] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+
+for e = 0 to elements-1
+    if <a link="impl-aarch64.ActivePredicateElement.3" file="shared_pseudocode.xml" hover="function: boolean ActivePredicateElement(bits(N) pred, integer e, integer esize)">ActivePredicateElement</a>(mask, e, esize) then
+        constant bits(esize) element = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand, e, esize];
+        constant bits(d_esize) res = <a link="impl-shared.FPToFixed.6" file="shared_pseudocode.xml" hover="function: bits(M) FPToFixed(bits(N) op, integer fbits, boolean unsigned, FPCR_Type fpcr, FPRounding rounding, integer M)">FPToFixed</a>(element&lt;s_esize-1:0&gt;, 0, unsigned, FPCR, rounding,
+                                               d_esize);
+        <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, esize] = <a link="impl-shared.Extend.3" file="shared_pseudocode.xml" hover="function: bits(N) Extend(bits(M) x, integer N, boolean unsigned)">Extend</a>(res, esize, unsigned);
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

@@ -1,0 +1,236 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="fmaxnmqv_z_p_z" title="FMAXNMQV -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="FMAXNMQV"/>
+  </docvars>
+  <heading>FMAXNMQV</heading>
+  <desc>
+    <brief>
+      <para>Floating-point maximum number recursive reduction of quadword vector segments</para>
+    </brief>
+    <authored>
+      <para>Floating-point maximum number of the same element numbers from each 128-bit source vector segment
+using a recursive pairwise reduction,
+placing each result into the corresponding element number of the
+128-bit SIMD&amp;FP destination register.
+Inactive elements in the source vector are treated as the default NaN.</para>
+      <para>Regardless of the value of FPCR.AH, the behavior is as follows:</para>
+      <list type="unordered">
+        <listitem>
+          <content>Negative zero compares less than positive zero.</content>
+        </listitem>
+        <listitem>
+          <content>If one value is numeric and the other
+  is a quiet NaN, the result is the numeric
+  value.</content>
+        </listitem>
+        <listitem>
+          <content>When FPCR.DN is 0, if either value is a signaling NaN or if both values are NaNs,
+  the result is a quiet NaN.</content>
+        </listitem>
+        <listitem>
+          <content>When FPCR.DN is 1, if either value is a signaling NaN or if both values are NaNs,
+  the result is Default NaN.</content>
+        </listitem>
+      </list>
+    </authored>
+    <predicated>True</predicated>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE2" oneof="1" id="iclass_sve2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="FMAXNMQV"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p1 || FEAT_SME2p1" name="FEAT_SVE2p1 || FEAT_SME2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_fastreduceq.sve_fp_fast_redq.fmaxnmqv_z_p_z_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="18" width="3" name="opc" usename="1" settings="3" psbits="xxx">
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="12" width="3" name="Pg" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Vd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="fmaxnmqv_z_p_z_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="FMAXNMQV"/>
+          <docvar key="instr-class" value="sve2"/>
+        </docvars>
+        <asmtemplate><text>FMAXNMQV  </text><a hover="Is the name of the destination SIMD&amp;amp;FP register, encoded in the &quot;Vd&quot; field." link="Vd__5">&lt;Vd&gt;</a><text>.</text><a hover="Is an arrangement specifier, " link="T__44">&lt;T&gt;</a><text>, </text><a hover="Is the name of the governing scalable predicate register P0-P7, encoded in the &quot;Pg&quot; field." link="Pg">&lt;Pg&gt;</a><text>, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>.</text><a hover="Is the size specifier, " link="Tb__5">&lt;Tb&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_fastreduceq.sve_fp_fast_redq.fmaxnmqv_z_p_z_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p1) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+if size == '00' then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(size);
+constant integer g = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pg);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Vd);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="fmaxnmqv_z_p_z_" symboldefcount="1">
+      <symbol link="Vd__5">&lt;Vd&gt;</symbol>
+      <account encodedin="Vd">
+        <intro>
+          <para>Is the name of the destination SIMD&amp;FP register, encoded in the "Vd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fmaxnmqv_z_p_z_" symboldefcount="1">
+      <symbol link="T__44">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is an arrangement specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">8H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">4S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">2D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="fmaxnmqv_z_p_z_" symboldefcount="1">
+      <symbol link="Pg">&lt;Pg&gt;</symbol>
+      <account encodedin="Pg">
+        <intro>
+          <para>Is the name of the governing scalable predicate register P0-P7, encoded in the "Pg" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fmaxnmqv_z_p_z_" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="fmaxnmqv_z_p_z_" symboldefcount="1">
+      <symbol link="Tb__5">&lt;Tb&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;Tb&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">RESERVED</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_fp_fastreduceq.sve_fp_fast_redq.fmaxnmqv_z_p_z_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer segments = VL DIV 128;
+constant integer elempersegment = 128 DIV esize;
+constant integer segbits = segments*esize;
+constant bits(PL) mask = <a link="impl-aarch64.P.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) P[integer n, integer width]">P</a>[g, PL];
+constant bits(VL) operand = if <a link="impl-aarch64.AnyActiveElement.2" file="shared_pseudocode.xml" hover="function: boolean AnyActiveElement(bits(N) mask, integer esize)">AnyActiveElement</a>(mask, esize) then <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(VL);
+constant bits(esize) identity = <a link="impl-shared.FPDefaultNaN.2" file="shared_pseudocode.xml" hover="function: bits(N) FPDefaultNaN(FPCR_Type fpcr, integer N)">FPDefaultNaN</a>(FPCR, esize);
+bits(128) result = <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(128);
+
+for e = 0 to elempersegment-1
+    bits(segbits) stmp;
+    for s = 0 to segments-1
+        if <a link="impl-aarch64.ActivePredicateElement.3" file="shared_pseudocode.xml" hover="function: boolean ActivePredicateElement(bits(N) pred, integer e, integer esize)">ActivePredicateElement</a>(mask, s * elempersegment + e, esize) then
+            <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[stmp, s, esize] = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[operand, s * elempersegment + e, esize];
+        else
+            <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[stmp, s, esize] = identity;
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, esize] = <a link="impl-aarch64.FPReduce.4" file="shared_pseudocode.xml" hover="function: bits(esize) FPReduce(ReduceOp op, bits(N) input, integer esize, FPCR_Type fpcr)">FPReduce</a>(<a link="ReduceOp_FMAXNUM" file="shared_pseudocode.xml" hover="enumeration ReduceOp {ReduceOp_FMINNUM, ReduceOp_FMAXNUM, ReduceOp_FMIN, ReduceOp_FMAX, ReduceOp_FADD, ReduceOp_ADD}">ReduceOp_FMAXNUM</a>, stmp, esize, FPCR);
+<a link="impl-aarch64.V.write.2" file="shared_pseudocode.xml" hover="accessor: V[integer n, ESize width] = bits(width) value">V</a>[d, 128] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

@@ -1,0 +1,316 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="tbl_z_zz" title="TBL -- A64" type="instruction">
+  <docvars>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="TBL"/>
+  </docvars>
+  <heading>TBL</heading>
+  <desc>
+    <brief>
+      <para>Programmable table lookup in one or two vector table (zeroing)</para>
+    </brief>
+    <authored>
+      <para>Reads each element of the second
+source (index) vector and uses its value to select an indexed element from
+a table of elements consisting of
+   one or two consecutive vector registers,
+   where the first or only vector
+   holds the lower numbered elements,
+and places the indexed table element in the destination vector element corresponding
+to the index vector element.
+If an index value is greater than or equal to the
+ number of
+vector elements
+then it places zero in the corresponding destination vector element.</para>
+      <para>Since the index values can select any element in a vector this operation
+is not naturally vector length agnostic.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="2">
+      <txt>It has encodings from 2 classes:</txt>
+      <a href="#iclass_single_register_table">Single register table</a>
+      <txt> and </txt>
+      <a href="#iclass_two_register_table">Two register table</a>
+    </classesintro>
+    <iclass name="Single register table" oneof="2" id="iclass_single_register_table" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="TBL"/>
+        <docvar key="no-reg-for-table" value="tbl1"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE || FEAT_SME" name="FEAT_SVE || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_c.sve_int_perm_tbl.tbl_z_zz_1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="Zm" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="tbl_z_zz_1" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="TBL"/>
+          <docvar key="instr-class" value="sve"/>
+          <docvar key="no-reg-for-table" value="tbl1"/>
+        </docvars>
+        <asmtemplate><text>TBL  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a><text>, { </text><a hover="Is the name of the first source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn__2">&lt;Zn&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a><text> }, </text><a hover="Is the name of the second source scalable vector register, encoded in the &quot;Zm&quot; field." link="Zm">&lt;Zm&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_c.sve_int_perm_tbl.tbl_z_zz_1" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(size);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant boolean double_table = FALSE;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Two register table" oneof="2" id="iclass_two_register_table" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="TBL"/>
+        <docvar key="no-reg-for-table" value="tbl2"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2 || FEAT_SME" name="FEAT_SVE2 || FEAT_SME"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_b.sve_int_perm_tbl_3src.tbl_z_zz_2" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="Zm" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="15" width="5" settings="5">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="10" name="op" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zd" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="tbl_z_zz_2" oneofinclass="1" oneof="2" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="TBL"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="no-reg-for-table" value="tbl2"/>
+        </docvars>
+        <asmtemplate><text>TBL  </text><a hover="Is the name of the destination scalable vector register, encoded in the &quot;Zd&quot; field." link="Zd">&lt;Zd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a><text>, { </text><a hover="Is the name of the first scalable vector register of the first source multi-vector group, encoded in the &quot;Zn&quot; field." link="Zn1__8">&lt;Zn1&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a><text>, </text><a hover="Is the name of the second scalable vector register of the first source multi-vector group, encoded in the &quot;Zn&quot; field." link="Zn2__6">&lt;Zn2&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a><text> }, </text><a hover="Is the name of the second source scalable vector register, encoded in the &quot;Zm&quot; field." link="Zm">&lt;Zm&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__5">&lt;T&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_b.sve_int_perm_tbl_3src.tbl_z_zz_2" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2) &amp;&amp; !IsFeatureImplemented(FEAT_SME) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(size);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zd);
+constant boolean double_table = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="tbl_z_zz_1, tbl_z_zz_2" symboldefcount="1">
+      <symbol link="Zd">&lt;Zd&gt;</symbol>
+      <account encodedin="Zd">
+        <intro>
+          <para>Is the name of the destination scalable vector register, encoded in the "Zd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="tbl_z_zz_1, tbl_z_zz_2" symboldefcount="1">
+      <symbol link="T__5">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="tbl_z_zz_1" symboldefcount="1">
+      <symbol link="Zn__2">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the first source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="tbl_z_zz_1, tbl_z_zz_2" symboldefcount="1">
+      <symbol link="Zm">&lt;Zm&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the second source scalable vector register, encoded in the "Zm" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="tbl_z_zz_2" symboldefcount="1">
+      <symbol link="Zn1__8">&lt;Zn1&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the first scalable vector register of the first source multi-vector group, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="tbl_z_zz_2" symboldefcount="1">
+      <symbol link="Zn2__6">&lt;Zn2&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the second scalable vector register of the first source multi-vector group, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_perm_unpred_c.sve_int_perm_tbl.tbl_z_zz_1" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV esize;
+constant bits(VL) indexes = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[m, VL];
+bits(VL) result;
+constant integer table_size = if double_table then VL*2 else VL;
+constant integer table_elems = table_size DIV esize;
+bits(table_size) table;
+
+if double_table then
+    constant bits(VL) top = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[(n + 1) MOD 32, VL];
+    constant bits(VL) bottom = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+    table = (top:bottom)&lt;table_size-1:0&gt;;
+else
+    table = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, table_size];
+
+for e = 0 to elements-1
+    constant integer idx = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(<a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[indexes, e, esize]);
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, esize] = if idx &lt; table_elems then <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[table, idx, esize] else <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(esize);
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[d, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

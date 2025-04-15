@@ -1,0 +1,360 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="LDTADD" title="LDTADD, LDTADDA, LDTADDAL, LDTADDL -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="general"/>
+    <docvar key="isa" value="A64"/>
+  </docvars>
+  <heading>LDTADD, LDTADDA, LDTADDAL, LDTADDL</heading>
+  <desc>
+    <brief>
+      <para>Atomic add unprivileged</para>
+    </brief>
+    <authored>
+      <para>This instruction atomically loads a 32-bit word or
+64-bit doubleword from memory, adds the value
+held in a register to it, and stores the result back to memory.
+The value initially loaded from memory is returned in the destination register.</para>
+      <list type="unordered">
+        <listitem>
+          <content>If the destination register is not one of <value>WZR</value>, or
+        <value>XZR</value>, <instruction>LDTADDA</instruction> and <instruction>LDTADDAL</instruction> load from memory with acquire semantics.</content>
+        </listitem>
+        <listitem>
+          <content>
+            <instruction>LDTADDL</instruction> and <instruction>LDTADDAL</instruction> store to memory with release semantics.</content>
+        </listitem>
+        <listitem>
+          <content>
+            <instruction>LDTADD</instruction> has neither acquire nor release semantics.</content>
+        </listitem>
+      </list>
+      <para>For more information about memory ordering semantics, see <xref linkend="ARMARM_BEIHCHEF">Load-Acquire, Store-Release</xref>.</para>
+      <para>For information about addressing modes, see
+<xref linkend="ARMARM_CHDIIIBB">Load/Store addressing modes</xref>.</para>
+      <para>Explicit Memory  effects produced by the instruction behave as if the instruction was
+  executed at EL0 if the <xref linkend="ARMARM_Effective_value">Effective value</xref> of
+  PSTATE.UAO is 0 and either:</para>
+      <list type="unordered">
+        <listitem>
+          <content>The instruction is executed at EL1.</content>
+        </listitem>
+        <listitem>
+          <content>The instruction is executed at EL2 when the <xref linkend="ARMARM_Effective_value">Effective value</xref>
+  of <register_link id="AArch64-hcr_el2.xml" state="AArch64">HCR_EL2</register_link>.{E2H, TGE} is {1, 1}.</content>
+        </listitem>
+      </list>
+      <para>Otherwise, the Explicit Memory  effects operate with the restrictions determined by
+  the Exception level at which the instruction is executed.</para>
+    </authored>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1, the timing of this instruction is insensitive to the value of the data being loaded or stored.</para>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="1">
+    <alias_list_intro>This instruction is used by the alias </alias_list_intro>
+    <aliasref aliaspageid="STTADD_LDTADD" aliasfile="sttadd_ldtadd.xml" hover="Atomic add unprivileged, without return" punct=".">
+      <text>STTADD, STTADDL</text>
+      <aliaspref>A == '0' &amp;&amp; Rt == '11111'</aliaspref>
+    </aliasref>
+    <alias_list_outro>
+      <text>  See </text>
+      <aliastablelink/>
+      <text> below for details of when the alias is preferred.</text>
+    </alias_list_outro>
+  </alias_list>
+  <classes>
+    <iclass name="Integer" oneof="1" id="iclass_integer" no_encodings="8" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="general"/>
+        <docvar key="isa" value="A64"/>
+      </docvars>
+      <iclassintro count="8"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_LSUI" name="ARMv9.6"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.ldst.memop_unpriv.LDTADD_32_memop_unpriv" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="30" width="1" name="sz" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="29" width="6" settings="6">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" name="A" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="22" width="1" name="R" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" name="Rs" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="15" name="o3" usename="1" settings="1" psbits="x">
+          <c>0</c>
+        </box>
+        <box hibit="14" width="3" name="opc" usename="1" settings="3" psbits="xxx">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="11" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="9" width="5" name="Rn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Rt" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="LDTADD_32_memop_unpriv" oneofinclass="8" oneof="8" label="32-bit no memory ordering" bitdiffs="sz == 0 &amp;&amp; A == 0 &amp;&amp; R == 0">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADD"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADD-32-reg"/>
+          <docvar key="reg-type" value="32-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>0</c>
+        </box>
+        <asmtemplate><text>LDTADD  </text><a hover="Is the 32-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="WsOrWZR">&lt;Ws&gt;</a><text>, </text><a hover="Is the 32-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="WtOrWZR__2">&lt;Wt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDA_32_memop_unpriv" oneofinclass="8" oneof="8" label="32-bit acquire" bitdiffs="sz == 0 &amp;&amp; A == 1 &amp;&amp; R == 0">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDA"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDA-32-reg"/>
+          <docvar key="reg-type" value="32-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>0</c>
+        </box>
+        <asmtemplate><text>LDTADDA  </text><a hover="Is the 32-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="WsOrWZR">&lt;Ws&gt;</a><text>, </text><a hover="Is the 32-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="WtOrWZR__2">&lt;Wt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDAL_32_memop_unpriv" oneofinclass="8" oneof="8" label="32-bit acquire-release" bitdiffs="sz == 0 &amp;&amp; A == 1 &amp;&amp; R == 1">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDAL"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDAL-32-reg"/>
+          <docvar key="reg-type" value="32-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>1</c>
+        </box>
+        <asmtemplate><text>LDTADDAL  </text><a hover="Is the 32-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="WsOrWZR">&lt;Ws&gt;</a><text>, </text><a hover="Is the 32-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="WtOrWZR__2">&lt;Wt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDL_32_memop_unpriv" oneofinclass="8" oneof="8" label="32-bit release" bitdiffs="sz == 0 &amp;&amp; A == 0 &amp;&amp; R == 1">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDL"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDL-32-reg"/>
+          <docvar key="reg-type" value="32-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>1</c>
+        </box>
+        <asmtemplate><text>LDTADDL  </text><a hover="Is the 32-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="WsOrWZR">&lt;Ws&gt;</a><text>, </text><a hover="Is the 32-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="WtOrWZR__2">&lt;Wt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADD_64_memop_unpriv" oneofinclass="8" oneof="8" label="64-bit no memory ordering" bitdiffs="sz == 1 &amp;&amp; A == 0 &amp;&amp; R == 0">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADD"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADD-64-reg"/>
+          <docvar key="reg-type" value="64-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>0</c>
+        </box>
+        <asmtemplate><text>LDTADD  </text><a hover="Is the 64-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="XsOrXZR__2">&lt;Xs&gt;</a><text>, </text><a hover="Is the 64-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="XtOrXZR__8">&lt;Xt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDA_64_memop_unpriv" oneofinclass="8" oneof="8" label="64-bit acquire" bitdiffs="sz == 1 &amp;&amp; A == 1 &amp;&amp; R == 0">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDA"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDA-64-reg"/>
+          <docvar key="reg-type" value="64-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>0</c>
+        </box>
+        <asmtemplate><text>LDTADDA  </text><a hover="Is the 64-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="XsOrXZR__2">&lt;Xs&gt;</a><text>, </text><a hover="Is the 64-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="XtOrXZR__8">&lt;Xt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDAL_64_memop_unpriv" oneofinclass="8" oneof="8" label="64-bit acquire-release" bitdiffs="sz == 1 &amp;&amp; A == 1 &amp;&amp; R == 1">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDAL"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDAL-64-reg"/>
+          <docvar key="reg-type" value="64-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>1</c>
+        </box>
+        <asmtemplate><text>LDTADDAL  </text><a hover="Is the 64-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="XsOrXZR__2">&lt;Xs&gt;</a><text>, </text><a hover="Is the 64-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="XtOrXZR__8">&lt;Xt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <encoding name="LDTADDL_64_memop_unpriv" oneofinclass="8" oneof="8" label="64-bit release" bitdiffs="sz == 1 &amp;&amp; A == 0 &amp;&amp; R == 1">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="LDTADDL"/>
+          <docvar key="instr-class" value="general"/>
+          <docvar key="atomic-ops" value="LDTADDL-64-reg"/>
+          <docvar key="reg-type" value="64-reg"/>
+        </docvars>
+        <box hibit="30" width="1" name="sz">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" name="A">
+          <c>0</c>
+        </box>
+        <box hibit="22" width="1" name="R">
+          <c>1</c>
+        </box>
+        <asmtemplate><text>LDTADDL  </text><a hover="Is the 64-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the &quot;Rs&quot; field." link="XsOrXZR__2">&lt;Xs&gt;</a><text>, </text><a hover="Is the 64-bit name of the general-purpose register to be loaded, encoded in the &quot;Rt&quot; field." link="XtOrXZR__8">&lt;Xt&gt;</a><text>, [</text><a hover="Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the &quot;Rn&quot; field." link="XnSP_option">&lt;Xn|SP&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.ldst.memop_unpriv.LDTADD_32_memop_unpriv" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_LSUI) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer s = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rs);
+constant integer t = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rt);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Rn);
+
+constant integer datasize = 32 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(sz);
+constant integer regsize = if datasize == 64 then 64 else 32;
+
+constant boolean acquire = A == '1' &amp;&amp; Rt != '11111';
+constant boolean release = R == '1';
+constant boolean tagchecked = n != 31;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="LDTADD_32_memop_unpriv, LDTADDA_32_memop_unpriv, LDTADDAL_32_memop_unpriv, LDTADDL_32_memop_unpriv" symboldefcount="1">
+      <symbol link="WsOrWZR">&lt;Ws&gt;</symbol>
+      <account encodedin="Rs">
+        <intro>
+          <para>Is the 32-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the "Rs" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="LDTADD_32_memop_unpriv, LDTADDA_32_memop_unpriv, LDTADDAL_32_memop_unpriv, LDTADDL_32_memop_unpriv" symboldefcount="1">
+      <symbol link="WtOrWZR__2">&lt;Wt&gt;</symbol>
+      <account encodedin="Rt">
+        <intro>
+          <para>Is the 32-bit name of the general-purpose register to be loaded, encoded in the "Rt" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="LDTADD_32_memop_unpriv, LDTADDA_32_memop_unpriv, LDTADDAL_32_memop_unpriv, LDTADDL_32_memop_unpriv, LDTADD_64_memop_unpriv, LDTADDA_64_memop_unpriv, LDTADDAL_64_memop_unpriv, LDTADDL_64_memop_unpriv" symboldefcount="1">
+      <symbol link="XnSP_option">&lt;Xn|SP&gt;</symbol>
+      <account encodedin="Rn">
+        <intro>
+          <para>Is the 64-bit name of the general-purpose base register or stack pointer, encoded in the "Rn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="LDTADD_64_memop_unpriv, LDTADDA_64_memop_unpriv, LDTADDAL_64_memop_unpriv, LDTADDL_64_memop_unpriv" symboldefcount="1">
+      <symbol link="XsOrXZR__2">&lt;Xs&gt;</symbol>
+      <account encodedin="Rs">
+        <intro>
+          <para>Is the 64-bit name of the general-purpose register holding the data value to be operated on with the contents of the memory location, encoded in the "Rs" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="LDTADD_64_memop_unpriv, LDTADDA_64_memop_unpriv, LDTADDAL_64_memop_unpriv, LDTADDL_64_memop_unpriv" symboldefcount="1">
+      <symbol link="XtOrXZR__8">&lt;Xt&gt;</symbol>
+      <account encodedin="Rt">
+        <intro>
+          <para>Is the 64-bit name of the general-purpose register to be loaded, encoded in the "Rt" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <aliastablehook anchor="aliasconditions">Alias Conditions</aliastablehook>
+  <ps_section howmany="1">
+    <ps name="A64.ldst.memop_unpriv.LDTADD_32_memop_unpriv" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">bits(64) address;
+
+constant boolean privileged = <a link="AArch64.IsUnprivAccessPriv.0" file="shared_pseudocode.xml" hover="function: boolean AArch64.IsUnprivAccessPriv()">AArch64.IsUnprivAccessPriv</a>();
+constant <a link="AccessDescriptor" file="shared_pseudocode.xml" hover="type AccessDescriptor is ( AccessType acctype, bits(2) el, SecurityState ss, boolean acqsc, boolean acqpc, boolean relsc, boolean limitedordered, boolean exclusive, boolean atomicop, MemAtomicOp modop, boolean nontemporal, boolean read, boolean write, CacheOp cacheop, CacheOpScope opscope, CacheType cachetype, boolean pan, boolean transactional, boolean nonfault, boolean firstfault, boolean first, boolean contiguous, boolean streamingsve, boolean ls64, boolean withstatus, boolean mops, boolean rcw, boolean rcws, boolean toplevel, VARange varange, boolean a32lsmd, boolean tagchecked, boolean tagaccess, boolean stzgm, boolean ispair, boolean highestaddressfirst, MPAMinfo mpam )">AccessDescriptor</a> accdesc = <a link="impl-shared.CreateAccDescAtomicOp.5" file="shared_pseudocode.xml" hover="function: AccessDescriptor CreateAccDescAtomicOp(MemAtomicOp modop, boolean acquire, boolean release, boolean tagchecked, boolean privileged)">CreateAccDescAtomicOp</a>(<a link="MemAtomicOp_ADD" file="shared_pseudocode.xml" hover="enumeration MemAtomicOp { MemAtomicOp_GCSSS1, MemAtomicOp_ADD, MemAtomicOp_BIC, MemAtomicOp_EOR, MemAtomicOp_ORR, MemAtomicOp_SMAX, MemAtomicOp_SMIN, MemAtomicOp_UMAX, MemAtomicOp_UMIN, MemAtomicOp_SWP, MemAtomicOp_CAS, MemAtomicOp_FPADD, MemAtomicOp_FPMAX, MemAtomicOp_FPMIN, MemAtomicOp_FPMAXNM, MemAtomicOp_FPMINNM, MemAtomicOp_BFADD, MemAtomicOp_BFMAX, MemAtomicOp_BFMIN, MemAtomicOp_BFMAXNM, MemAtomicOp_BFMINNM }">MemAtomicOp_ADD</a>, acquire, release,
+                                                          tagchecked, privileged);
+
+if n == 31 then
+    <a link="impl-aarch64.CheckSPAlignment.0" file="shared_pseudocode.xml" hover="function: CheckSPAlignment()">CheckSPAlignment</a>();
+    address = <a link="impl-aarch64.SP.read.1" file="shared_pseudocode.xml" hover="accessor: bits(width) SP[integer width]">SP</a>[64];
+else
+    address = <a link="impl-aarch64.X.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) X[integer n, integer width]">X</a>[n, 64];
+
+constant bits(datasize) comparevalue = bits(datasize) UNKNOWN; // Irrelevant when not executing CAS
+constant bits(datasize) value = <a link="impl-aarch64.X.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) X[integer n, integer width]">X</a>[s, datasize];
+constant bits(datasize) data = <a link="impl-aarch64.MemAtomic.4" file="shared_pseudocode.xml" hover="function: bits(size) MemAtomic(bits(64) address, bits(size) cmpoperand, bits(size) operand, AccessDescriptor accdesc_in)">MemAtomic</a>(address, comparevalue, value, accdesc);
+
+if t != 31 then
+    <a link="impl-aarch64.X.write.2" file="shared_pseudocode.xml" hover="accessor: X[integer n, integer width] = bits(width) value">X</a>[t, regsize] = <a link="impl-shared.ZeroExtend.2" file="shared_pseudocode.xml" hover="function: bits(N) ZeroExtend(bits(M) x, integer N)">ZeroExtend</a>(data, regsize);</pstext></ps>
+  </ps_section>
+</instructionsection>

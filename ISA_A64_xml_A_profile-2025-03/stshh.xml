@@ -1,0 +1,142 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="STSHH" title="STSHH -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="system"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="STSHH"/>
+  </docvars>
+  <heading>STSHH</heading>
+  <desc>
+    <brief>
+      <para>Store shared hint</para>
+    </brief>
+    <authored>
+      <para>This instruction signals to the memory system that if the next instruction in program order generates an
+explicit write effect, then it is to a location that one or more other threads of execution will observe,
+and there is a performance benefit to ensuring that the updated value from the write to that location
+propagates to those other observers with minimal latency.</para>
+      <para>The thread of execution on the other observers might be polling the location using load or load-exclusive
+instructions, or may have executed a <instruction>PRFM IR</instruction> instruction targeting the location.</para>
+    </authored>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="System" oneof="1" id="iclass_system" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="system"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="STSHH"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_PCDPHINT" name="ARMv9.6"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.control.hints.STSHH_HI_hints" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="3" settings="3">
+          <c>1</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="25" width="14" settings="14">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="11" width="4" name="CRm" usename="1" settings="4" psbits="xxxx">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="7" width="3" name="op2" usename="1" settings="2" psbits="xxx">
+          <c>0</c>
+          <c>0</c>
+          <c>x</c>
+        </box>
+        <box hibit="4" width="5" settings="5">
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+      </regdiagram>
+      <encoding name="STSHH_HI_hints" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="STSHH"/>
+          <docvar key="instr-class" value="system"/>
+        </docvars>
+        <asmtemplate><text>STSHH  </text><a hover="&lt;syntax&gt;&amp;lt;policy&amp;gt;&lt;/syntax&gt; is one of:&#10;&#10;KEEP&#10;: Signals to the memory system that there may be a performance benefit to retaining the updated location in the local cache of the updating PE.&#10;&#10;STRM&#10;: Signals to the memory system that there may be a performance benefit to ensuring the updated location is not retained in the local cache of the updating PE." link="stshh_policy">&lt;policy&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.control.hints.STSHH_HI_hints" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_PCDPHINT) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_NOP" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_NOP</a>);
+constant boolean stream = op2&lt;0&gt; == '1';</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="STSHH_HI_hints" symboldefcount="1">
+      <symbol link="stshh_policy">&lt;policy&gt;</symbol>
+      <definition encodedin="op2&lt;0&gt;">
+        <intro>
+          <para><syntax>&lt;policy&gt;</syntax> is one of:</para>
+          <list type="param">
+            <listitem>
+              <param>KEEP</param>
+              <content>Signals to the memory system that there may be a performance benefit to retaining the updated location in the local cache of the updating PE.</content>
+            </listitem>
+            <listitem>
+              <param>STRM</param>
+              <content>Signals to the memory system that there may be a performance benefit to ensuring the updated location is not retained in the local cache of the updating PE.</content>
+            </listitem>
+          </list>
+        </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">op2&lt;0&gt;</entry>
+                <entry class="symbol">&lt;policy&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">0</entry>
+                <entry class="symbol">KEEP</entry>
+              </row>
+              <row>
+                <entry class="bitfield">1</entry>
+                <entry class="symbol">STRM</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.control.hints.STSHH_HI_hints" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-shared.Hint_StoreShared.1" file="shared_pseudocode.xml" hover="function: Hint_StoreShared(boolean stream)">Hint_StoreShared</a>(stream);</pstext></ps>
+  </ps_section>
+</instructionsection>

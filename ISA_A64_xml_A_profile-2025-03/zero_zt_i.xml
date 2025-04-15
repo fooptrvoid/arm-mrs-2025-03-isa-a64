@@ -1,0 +1,140 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="zero_zt_i" title="ZERO (table) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="mortlach2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="ZERO"/>
+  </docvars>
+  <heading>ZERO (table)</heading>
+  <desc>
+    <brief>
+      <para>Zero ZT0</para>
+    </brief>
+    <authored>
+      <para>This instruction zeroes all bytes of the ZT0 register.</para>
+      <para>This instruction does not require the PE to be in Streaming SVE mode,
+and it is expected that this instruction will not experience a significant slowdown
+due to contention with other PEs that are executing in Streaming SVE mode.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+    <sm_policy>SM_0_or_1</sm_policy>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SME2" oneof="1" id="iclass_sme2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="ZERO"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2" name="ARMv9.3"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_zero_zt.zero_zt_i_" tworows="1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="7" settings="7">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="17" width="14" settings="14">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="3" width="4" name="opc" usename="1" settings="4" psbits="xxxx">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+      </regdiagram>
+      <encoding name="zero_zt_i_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="ZERO"/>
+          <docvar key="instr-class" value="mortlach2"/>
+        </docvars>
+        <asmtemplate><text>ZERO  { ZT0 }</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sme.mortlach_zero_zt.zero_zt_i_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) then <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all"/>
+  <ps_section howmany="1">
+    <ps name="A64.sme.mortlach_zero_zt.zero_zt_i_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSMEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSMEEnabled()">CheckSMEEnabled</a>();
+<a link="impl-aarch64.CheckSMEZT0Enabled.0" file="shared_pseudocode.xml" hover="function: CheckSMEZT0Enabled()">CheckSMEZT0Enabled</a>();
+
+if IsFeatureImplemented(FEAT_TME) &amp;&amp; TSTATE.depth &gt; 0 then
+    <a link="impl-aarch64.FailTransaction.2" file="shared_pseudocode.xml" hover="function: FailTransaction(TMFailure cause, boolean retry)">FailTransaction</a>(<a link="TMFailure_ERR" file="shared_pseudocode.xml" hover="enumeration TMFailure { TMFailure_CNCL, TMFailure_DBG, TMFailure_ERR, TMFailure_NEST, TMFailure_SIZE, TMFailure_MEM, TMFailure_TRIVIAL, TMFailure_IMP }">TMFailure_ERR</a>, FALSE);
+
+<a link="impl-aarch64.ZT0.write.1" file="shared_pseudocode.xml" hover="accessor: ZT0[integer width] = bits(width) value">ZT0</a>[512] = <a link="impl-shared.Zeros.1" file="shared_pseudocode.xml" hover="function: bits(N) Zeros(integer N)">Zeros</a>(512);</pstext></ps>
+  </ps_section>
+</instructionsection>

@@ -1,0 +1,451 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="pmov_p_zi" title="PMOV (to predicate) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="PMOV"/>
+  </docvars>
+  <heading>PMOV (to predicate)</heading>
+  <desc>
+    <brief>
+      <para>Move predicate from vector</para>
+    </brief>
+    <authored>
+      <para>Copy a packed bitmap, where bit value <binarynumber>0b1</binarynumber> represents TRUE and bit value <binarynumber>0b0</binarynumber>
+represents FALSE, from a portion of the source vector register to elements of the
+destination SVE predicate register.</para>
+      <para>Because the number of bits in an SVE predicate element scales with the vector
+element size, the behavior varies according to the specified element size.</para>
+      <list type="unordered">
+        <listitem>
+          <content>When the predicate element specifier is B, each bit [N] from the
+  least-significant VL/8 bits in the source vector register is copied
+  to bit [N] of the destination predicate register. The portion
+  index, if specified, must be 0.</content>
+        </listitem>
+        <listitem>
+          <content>When the predicate element specifier is H, each bit [N] within the
+  indexed block of VL/16 bits in the source vector register is copied
+  to bit [N*2] of the destination predicate register, and the other
+  bits in the predicate are set to zero. The portion index is in the
+  range 0 to 1, inclusive.</content>
+        </listitem>
+        <listitem>
+          <content>When the predicate element specifier is S, each bit [N] within the
+  indexed block of VL/32 bits in the source vector register is copied
+  to bit [N*4] of the destination predicate register, and the other
+  bits in the predicate are set to zero. The portion index is in the
+  range 0 to 3, inclusive.</content>
+        </listitem>
+        <listitem>
+          <content>When the predicate element specifier is D, each bit [N] within the
+  indexed block of VL/64 bits in the source vector register is copied
+  to bit [N*8] of the destination predicate register, and the other
+  bits in the predicate are set to zero. The portion index is in the
+  range 0 to 7, inclusive.</content>
+        </listitem>
+      </list>
+      <para>The portion index is optional, defaulting to 0 if omitted.</para>
+    </authored>
+    <predicated>False</predicated>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <classesintro count="4">
+      <txt>It has encodings from 4 classes:</txt>
+      <a href="#iclass_byte">Byte</a>
+      <txt>, </txt>
+      <a href="#iclass_doubleword">Doubleword</a>
+      <txt>, </txt>
+      <a href="#iclass_halfword">Halfword</a>
+      <txt> and </txt>
+      <a href="#iclass_word">Word</a>
+    </classesintro>
+    <iclass name="Byte" oneof="4" id="iclass_byte" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PMOV"/>
+        <docvar key="sve-esize" value="esize-byte"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p1 || FEAT_SME2p1" name="FEAT_SVE2p1 || FEAT_SME2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_b" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="opc2" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="3" width="4" name="Pd" usename="1">
+          <c colspan="4"/>
+        </box>
+      </regdiagram>
+      <encoding name="pmov_p_zi_b" oneofinclass="1" oneof="4" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PMOV"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="sve-esize" value="esize-byte"/>
+        </docvars>
+        <asmtemplate><text>PMOV  </text><a hover="Is the name of the destination scalable predicate register, encoded in the &quot;Pd&quot; field." link="Pd">&lt;Pd&gt;</a><text>.B, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_b" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p1) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pd);
+constant integer esize = 8;
+constant integer imm = 0;</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Doubleword" oneof="4" id="iclass_doubleword" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PMOV"/>
+        <docvar key="sve-esize" value="esize-doubleword"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p1 || FEAT_SME2p1" name="FEAT_SVE2p1 || FEAT_SME2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_d">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="22" width="1" name="i3h" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="i3l" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="3" width="4" name="Pd" usename="1">
+          <c colspan="4"/>
+        </box>
+      </regdiagram>
+      <encoding name="pmov_p_zi_d" oneofinclass="1" oneof="4" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PMOV"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="sve-esize" value="esize-doubleword"/>
+        </docvars>
+        <asmtemplate><text>PMOV  </text><a hover="Is the name of the destination scalable predicate register, encoded in the &quot;Pd&quot; field." link="Pd">&lt;Pd&gt;</a><text>.D, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>{[</text><a hover="For the &quot;Doubleword&quot; variant: is the optional portion index, in the range 0 to 7, defaulting to 0, encoded in the &quot;i3h:i3l&quot; fields." link="imm__83">&lt;imm&gt;</a><text>]}</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_d" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p1) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pd);
+constant integer esize = 64;
+constant integer imm = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i3h:i3l);</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Halfword" oneof="4" id="iclass_halfword" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PMOV"/>
+        <docvar key="sve-esize" value="esize-halfword"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p1 || FEAT_SME2p1" name="FEAT_SVE2p1 || FEAT_SME2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_h" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="17" width="1" name="i1" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="3" width="4" name="Pd" usename="1">
+          <c colspan="4"/>
+        </box>
+      </regdiagram>
+      <encoding name="pmov_p_zi_h" oneofinclass="1" oneof="4" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PMOV"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="sve-esize" value="esize-halfword"/>
+        </docvars>
+        <asmtemplate><text>PMOV  </text><a hover="Is the name of the destination scalable predicate register, encoded in the &quot;Pd&quot; field." link="Pd">&lt;Pd&gt;</a><text>.H, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>{[</text><a hover="For the &quot;Halfword&quot; variant: is the optional portion index, in the range 0 to 1, defaulting to 0, encoded in the &quot;i1&quot; field." link="imm__84">&lt;imm&gt;</a><text>]}</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_h" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p1) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pd);
+constant integer esize = 16;
+constant integer imm = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i1);</pstext></ps>
+      </ps_section>
+    </iclass>
+    <iclass name="Word" oneof="4" id="iclass_word" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PMOV"/>
+        <docvar key="sve-esize" value="esize-word"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SVE2p1 || FEAT_SME2p1" name="FEAT_SVE2p1 || FEAT_SME2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_s" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="opc" usename="1" settings="2" psbits="xx">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="18" width="2" name="i2" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="16" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="15" width="6" settings="6">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="3" width="4" name="Pd" usename="1">
+          <c colspan="4"/>
+        </box>
+      </regdiagram>
+      <encoding name="pmov_p_zi_s" oneofinclass="1" oneof="4" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PMOV"/>
+          <docvar key="instr-class" value="sve2"/>
+          <docvar key="sve-esize" value="esize-word"/>
+        </docvars>
+        <asmtemplate><text>PMOV  </text><a hover="Is the name of the destination scalable predicate register, encoded in the &quot;Pd&quot; field." link="Pd">&lt;Pd&gt;</a><text>.S, </text><a hover="Is the name of the source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn">&lt;Zn&gt;</a><text>{[</text><a hover="For the &quot;Word&quot; variant: is the optional portion index, in the range 0 to 3, defaulting to 0, encoded in the &quot;i2&quot; field." link="imm__85">&lt;imm&gt;</a><text>]}</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_s" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SVE2p1) &amp;&amp; !IsFeatureImplemented(FEAT_SME2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pd);
+constant integer esize = 32;
+constant integer imm = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i2);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="pmov_p_zi_b, pmov_p_zi_d, pmov_p_zi_h, pmov_p_zi_s" symboldefcount="1">
+      <symbol link="Pd">&lt;Pd&gt;</symbol>
+      <account encodedin="Pd">
+        <intro>
+          <para>Is the name of the destination scalable predicate register, encoded in the "Pd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pmov_p_zi_b, pmov_p_zi_d, pmov_p_zi_h, pmov_p_zi_s" symboldefcount="1">
+      <symbol link="Zn">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pmov_p_zi_d" symboldefcount="1">
+      <symbol link="imm__83">&lt;imm&gt;</symbol>
+      <account encodedin="i3h:i3l">
+        <intro>
+          <para>For the "Doubleword" variant: is the optional portion index, in the range 0 to 7, defaulting to 0, encoded in the "i3h:i3l" fields.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pmov_p_zi_h" symboldefcount="2">
+      <symbol link="imm__84">&lt;imm&gt;</symbol>
+      <account encodedin="i1">
+        <intro>
+          <para>For the "Halfword" variant: is the optional portion index, in the range 0 to 1, defaulting to 0, encoded in the "i1" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pmov_p_zi_s" symboldefcount="3">
+      <symbol link="imm__85">&lt;imm&gt;</symbol>
+      <account encodedin="i2">
+        <intro>
+          <para>For the "Word" variant: is the optional portion index, in the range 0 to 3, defaulting to 0, encoded in the "i2" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_perm_unpred_d.sve_int_mov_v2p.pmov_p_zi_b" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer elements = VL DIV esize;
+constant bits(VL) operand = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+bits(PL) result;
+constant integer psize = esize DIV 8;
+
+for e = 0 to elements-1
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, psize] = <a link="impl-shared.ZeroExtend.2" file="shared_pseudocode.xml" hover="function: bits(N) ZeroExtend(bits(M) x, integer N)">ZeroExtend</a>(operand&lt;(elements * imm) + e&gt;, psize);
+
+<a link="impl-aarch64.P.write.2" file="shared_pseudocode.xml" hover="accessor: P[integer n, integer width] = bits(width) value">P</a>[d, PL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

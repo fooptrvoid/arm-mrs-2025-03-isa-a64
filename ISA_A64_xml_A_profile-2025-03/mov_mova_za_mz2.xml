@@ -1,0 +1,185 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="mov_mova_za_mz2" title="MOV (vector to array, two registers) -- A64" type="alias">
+  <docvars>
+    <docvar key="alias_mnemonic" value="MOV"/>
+    <docvar key="instr-class" value="mortlach2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="MOVA"/>
+  </docvars>
+  <heading>MOV (vector to array, two registers)</heading>
+  <desc>
+    <brief>
+      <para>Move two vector registers to two ZA single-vector groups</para>
+    </brief>
+    <authored>
+      <para>This instruction operates on two ZA single-vector groups.</para>
+      <para>The single-vector group within each half
+of the ZA array is selected by the sum of the vector select register and offset, modulo
+half the number of ZA array vectors.</para>
+      <para>The <syntax>vector group</syntax> symbol <syntax>VGx2</syntax>
+indicates that the instruction operates on two ZA single-vector groups.</para>
+      <para>The preferred disassembly syntax uses a 64-bit element size, but an assembler should accept
+any element size if it is used consistently for all operands. The <syntax>vector group</syntax> symbol is
+preferred for disassembly, but optional in assembler source code.</para>
+      <para>This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <uses_dit condition="FEAT_SVE2 is implemented or FEAT_SME is implemented">True</uses_dit>
+    <sm_policy>SM_1_only</sm_policy>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>If PSTATE.DIT is 1:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The execution time of this instruction is independent of:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+          <listitem>
+            <content>The response of this instruction to asynchronous exceptions does not vary based on:<list type="unordered">
+                <listitem>
+                  <content>The values of the data supplied in any of its registers.</content>
+                </listitem>
+                <listitem>
+                  <content>The values of the NZCV flags.</content>
+                </listitem>
+              </list>
+            </content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <aliasto refiform="mova_za_mz2.xml" iformid="mova_za_mz2">MOVA (vector to array, two registers)</aliasto>
+  <classes>
+    <iclass name="SME2" oneof="1" id="iclass_sme2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="mortlach2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="MOVA"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2" name="ARMv9.3"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sme.mortlach_ins.mortlach_multi2_za_insert_ctg.mova_za_mz2_1.mov_za_mz2_1">
+        <box hibit="31" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="30" width="2" settings="2">
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="2" settings="2">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="21" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="18" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="17" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="16" width="2" settings="2">
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="14" width="2" name="Rv" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="12" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="9" width="4" name="Zn" usename="1">
+          <c colspan="4"/>
+        </box>
+        <box hibit="5" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="3" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="2" width="3" name="off3" usename="1">
+          <c colspan="3"/>
+        </box>
+      </regdiagram>
+      <encoding name="mov_za_mz2_1_mova_za_mz2_1" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="MOVA"/>
+          <docvar key="alias_mnemonic" value="MOV"/>
+          <docvar key="instr-class" value="mortlach2"/>
+        </docvars>
+        <asmtemplate><text>MOV  ZA.D[</text><a hover="Is the 32-bit name of the vector select register W8-W11, encoded in the &quot;Rv&quot; field." link="Wv">&lt;Wv&gt;</a><text>, </text><a hover="Is the vector select offset, in the range 0 to 7, encoded in the &quot;off3&quot; field." link="offs">&lt;offs&gt;</a><text>{, VGx2}], { </text><a hover="Is the name of the first scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 2." link="Zn1__4">&lt;Zn1&gt;</a><text>.D-</text><a hover="Is the name of the second scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 2 plus 1." link="Zn2__3">&lt;Zn2&gt;</a><text>.D }</text></asmtemplate>
+        <equivalent_to>
+          <asmtemplate><a href="mova_za_mz2.xml#mova_za_mz2_1">MOVA</a><text>  ZA.D[</text><a hover="Is the 32-bit name of the vector select register W8-W11, encoded in the &quot;Rv&quot; field." href="mova_za_mz2.xml#Wv">&lt;Wv&gt;</a><text>, </text><a hover="Is the vector select offset, in the range 0 to 7, encoded in the &quot;off3&quot; field." href="mova_za_mz2.xml#offs">&lt;offs&gt;</a><text>{, VGx2}], { </text><a hover="Is the name of the first scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 2." href="mova_za_mz2.xml#Zn1__4">&lt;Zn1&gt;</a><text>.D-</text><a hover="Is the name of the second scalable vector register of the source multi-vector group, encoded as &quot;Zn&quot; times 2 plus 1." href="mova_za_mz2.xml#Zn2__3">&lt;Zn2&gt;</a><text>.D }</text></asmtemplate>
+          <aliascond>Unconditionally</aliascond>
+        </equivalent_to>
+      </encoding>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="mov_za_mz2_1_mova_za_mz2_1" symboldefcount="1">
+      <symbol link="Wv">&lt;Wv&gt;</symbol>
+      <account encodedin="Rv">
+        <intro>
+          <para>Is the 32-bit name of the vector select register W8-W11, encoded in the "Rv" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_za_mz2_1_mova_za_mz2_1" symboldefcount="1">
+      <symbol link="offs">&lt;offs&gt;</symbol>
+      <account encodedin="off3">
+        <intro>
+          <para>Is the vector select offset, in the range 0 to 7, encoded in the "off3" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_za_mz2_1_mova_za_mz2_1" symboldefcount="1">
+      <symbol link="Zn1__4">&lt;Zn1&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the first scalable vector register of the source multi-vector group, encoded as "Zn" times 2.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="mov_za_mz2_1_mova_za_mz2_1" symboldefcount="1">
+      <symbol link="Zn2__3">&lt;Zn2&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the second scalable vector register of the source multi-vector group, encoded as "Zn" times 2 plus 1.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+</instructionsection>

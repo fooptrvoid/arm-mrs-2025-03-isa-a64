@@ -1,0 +1,186 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="pext_pn_rr" title="PEXT (predicate) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="PEXT"/>
+  </docvars>
+  <heading>PEXT (predicate)</heading>
+  <desc>
+    <brief>
+      <para>Predicate extract from predicate-as-counter</para>
+    </brief>
+    <authored>
+      <para>Converts the source predicate-as-counter into a four register wide predicate-as-mask, and
+copies the portion of the mask value selected by the portion index to the
+destination predicate register. A portion corresponds to a one predicate register fraction
+of the wider predicate-as-mask value.</para>
+    </authored>
+    <predicated>False</predicated>
+    <sm_policy>SM_1_or_SVE2p1</sm_policy>
+  </desc>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE2" oneof="1" id="iclass_sve2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="PEXT"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2 || FEAT_SVE2p1" name="FEAT_SME2 || FEAT_SVE2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_while_pn.sve_int_ctr_to_mask.pext_pn_rr_">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="23" width="2" name="size" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="5" settings="5">
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+          <c>0</c>
+        </box>
+        <box hibit="15" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="13" width="3" settings="3">
+          <c>1</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="10" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="9" width="2" name="imm2" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="7" width="3" name="PNn" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="4" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="3" width="4" name="Pd" usename="1">
+          <c colspan="4"/>
+        </box>
+      </regdiagram>
+      <encoding name="pext_pn_rr_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="PEXT"/>
+          <docvar key="instr-class" value="sve2"/>
+        </docvars>
+        <asmtemplate><text>PEXT  </text><a hover="Is the name of the destination scalable predicate register, encoded in the &quot;Pd&quot; field." link="Pd">&lt;Pd&gt;</a><text>.</text><a hover="Is the size specifier, " link="T__67">&lt;T&gt;</a><text>, </text><a hover="Is the name of the first source scalable predicate register PN8-PN15, with predicate-as-counter encoding, encoded in the &quot;PNn&quot; field." link="PNn__2">&lt;PNn&gt;</a><text>[</text><a hover="Is the portion index, in the range 0 to 3, encoded in the &quot;imm2&quot; field." link="imm__81">&lt;imm&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_while_pn.sve_int_ctr_to_mask.pext_pn_rr_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) &amp;&amp; !IsFeatureImplemented(FEAT_SVE2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer esize = 8 &lt;&lt; <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(size);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>('1':PNn);
+constant integer d = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Pd);
+constant integer part = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(imm2);</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="pext_pn_rr_" symboldefcount="1">
+      <symbol link="Pd">&lt;Pd&gt;</symbol>
+      <account encodedin="Pd">
+        <intro>
+          <para>Is the name of the destination scalable predicate register, encoded in the "Pd" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pext_pn_rr_" symboldefcount="1">
+      <symbol link="T__67">&lt;T&gt;</symbol>
+      <definition encodedin="size">
+        <intro>Is the size specifier, </intro>
+        <table class="valuetable">
+          <tgroup cols="2">
+            <thead>
+              <row>
+                <entry class="bitfield">size</entry>
+                <entry class="symbol">&lt;T&gt;</entry>
+              </row>
+            </thead>
+            <tbody>
+              <row>
+                <entry class="bitfield">00</entry>
+                <entry class="symbol">B</entry>
+              </row>
+              <row>
+                <entry class="bitfield">01</entry>
+                <entry class="symbol">H</entry>
+              </row>
+              <row>
+                <entry class="bitfield">10</entry>
+                <entry class="symbol">S</entry>
+              </row>
+              <row>
+                <entry class="bitfield">11</entry>
+                <entry class="symbol">D</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </definition>
+    </explanation>
+    <explanation enclist="pext_pn_rr_" symboldefcount="1">
+      <symbol link="PNn__2">&lt;PNn&gt;</symbol>
+      <account encodedin="PNn">
+        <intro>
+          <para>Is the name of the first source scalable predicate register PN8-PN15, with predicate-as-counter encoding, encoded in the "PNn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="pext_pn_rr_" symboldefcount="1">
+      <symbol link="imm__81">&lt;imm&gt;</symbol>
+      <account encodedin="imm2">
+        <intro>
+          <para>Is the portion index, in the range 0 to 3, encoded in the "imm2" field.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_while_pn.sve_int_ctr_to_mask.pext_pn_rr_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute">if IsFeatureImplemented(FEAT_SVE2p1) then <a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>(); else <a link="impl-aarch64.CheckStreamingSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckStreamingSVEEnabled()">CheckStreamingSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer PL = VL DIV 8;
+constant integer elements = VL DIV esize;
+constant bits(PL) pred = <a link="impl-aarch64.P.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) P[integer n, integer width]">P</a>[n, PL];
+constant bits(PL*4) mask = <a link="impl-aarch64.CounterToPredicate.2" file="shared_pseudocode.xml" hover="function: bits(width) CounterToPredicate(bits(16) pred, integer width)">CounterToPredicate</a>(pred&lt;15:0&gt;, PL*4);
+bits(PL) result;
+constant integer psize = esize DIV 8;
+
+for e = 0 to elements-1
+    constant bit pbit = <a link="impl-aarch64.PredicateElement.3" file="shared_pseudocode.xml" hover="function: bit PredicateElement(bits(N) pred, integer e, integer esize)">PredicateElement</a>(mask, part * elements + e, esize);
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, psize] = <a link="impl-shared.ZeroExtend.2" file="shared_pseudocode.xml" hover="function: bits(N) ZeroExtend(bits(M) x, integer N)">ZeroExtend</a>(pbit, psize);
+
+<a link="impl-aarch64.P.write.2" file="shared_pseudocode.xml" hover="accessor: P[integer n, integer width] = bits(width) value">P</a>[d, PL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>

@@ -1,0 +1,189 @@
+<?xml-stylesheet type="text/xsl" encoding="UTF-8" href="iform.xsl" version="1.0"?>
+<!DOCTYPE instructionsection PUBLIC "-//ARM//DTD instructionsection //EN" "iform-p.dtd">
+<!-- Copyright (c) 2010-2025 Arm Limited or its affiliates. All rights reserved. -->
+<!-- This document is Non-Confidential. This document may only be used and distributed in accordance with the terms of the agreement entered into by Arm and the party that Arm delivered this document to. -->
+<instructionsection id="bfmlslt_z_zzzi" title="BFMLSLT (indexed) -- A64" type="instruction">
+  <docvars>
+    <docvar key="instr-class" value="sve2"/>
+    <docvar key="isa" value="A64"/>
+    <docvar key="mnemonic" value="BFMLSLT"/>
+  </docvars>
+  <heading>BFMLSLT (indexed)</heading>
+  <desc>
+    <brief>
+      <para>BFloat16 multiply-subtract long from single-precision (top, indexed)</para>
+    </brief>
+    <authored>
+      <para>This BFloat16 multiply-subtract long instruction
+widens the odd-numbered BFloat16 elements in the first
+source vector and the indexed element from the corresponding 128-bit segment
+in the second source vector to single-precision format and
+then destructively multiplies and subtracts these values
+without intermediate rounding from the single-precision elements of the destination vector
+that overlap with the corresponding BFloat16 elements in the
+first source vector.
+This instruction is unpredicated.</para>
+    </authored>
+    <predicated>False</predicated>
+    <takes_movprfx>True</takes_movprfx>
+  </desc>
+  <operationalnotes>
+    <operationalnote>
+      <operationalnote_content>
+        <para>This instruction might be immediately preceded in program order by a <instruction>MOVPRFX</instruction> instruction. The <instruction>MOVPRFX</instruction> must conform to all of the following requirements, otherwise the behavior of the <instruction>MOVPRFX</instruction> and this instruction is <arm-defined-word>CONSTRAINED UNPREDICTABLE</arm-defined-word>:</para>
+        <list type="unordered">
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> must be unpredicated.</content>
+          </listitem>
+          <listitem>
+            <content>The <instruction>MOVPRFX</instruction> must specify the same destination register as this instruction.</content>
+          </listitem>
+          <listitem>
+            <content>The destination register must not refer to architectural register state referenced by any other source operand register of this instruction.</content>
+          </listitem>
+        </list>
+      </operationalnote_content>
+    </operationalnote>
+  </operationalnotes>
+  <alias_list howmany="0"/>
+  <classes>
+    <iclass name="SVE2" oneof="1" id="iclass_sve2" no_encodings="1" isa="A64">
+      <docvars>
+        <docvar key="instr-class" value="sve2"/>
+        <docvar key="isa" value="A64"/>
+        <docvar key="mnemonic" value="BFMLSLT"/>
+      </docvars>
+      <iclassintro count="1"/>
+      <arch_variants>
+        <arch_variant feature="FEAT_SME2 || FEAT_SVE2p1" name="FEAT_SME2 || FEAT_SVE2p1"/>
+      </arch_variants>
+      <regdiagram form="32" psname="A64.sve.sve_fp_fma_w_by_indexed_elem.sve_fp_fma_long_by_indexed_elem.bfmlslt_z_zzzi_" tworows="1">
+        <box hibit="31" width="3" settings="3">
+          <c>0</c>
+          <c>1</c>
+          <c>1</c>
+        </box>
+        <box hibit="28" width="4" settings="4">
+          <c>0</c>
+          <c>0</c>
+          <c>1</c>
+          <c>0</c>
+        </box>
+        <box hibit="24" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="23" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="22" name="o2" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="21" width="1" settings="1">
+          <c>1</c>
+        </box>
+        <box hibit="20" width="2" name="i3h" usename="1">
+          <c colspan="2"/>
+        </box>
+        <box hibit="18" width="3" name="Zm" usename="1">
+          <c colspan="3"/>
+        </box>
+        <box hibit="15" width="2" settings="2">
+          <c>0</c>
+          <c>1</c>
+        </box>
+        <box hibit="13" name="op" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="12" width="1" settings="1">
+          <c>0</c>
+        </box>
+        <box hibit="11" width="1" name="i3l" usename="1">
+          <c colspan="1"/>
+        </box>
+        <box hibit="10" name="T" usename="1" settings="1" psbits="x">
+          <c>1</c>
+        </box>
+        <box hibit="9" width="5" name="Zn" usename="1">
+          <c colspan="5"/>
+        </box>
+        <box hibit="4" width="5" name="Zda" usename="1">
+          <c colspan="5"/>
+        </box>
+      </regdiagram>
+      <encoding name="bfmlslt_z_zzzi_" oneofinclass="1" oneof="1" label="">
+        <docvars>
+          <docvar key="isa" value="A64"/>
+          <docvar key="mnemonic" value="BFMLSLT"/>
+          <docvar key="instr-class" value="sve2"/>
+        </docvars>
+        <asmtemplate><text>BFMLSLT  </text><a hover="Is the name of the third source and destination scalable vector register, encoded in the &quot;Zda&quot; field." link="Zda">&lt;Zda&gt;</a><text>.S, </text><a hover="Is the name of the first source scalable vector register, encoded in the &quot;Zn&quot; field." link="Zn__2">&lt;Zn&gt;</a><text>.H, </text><a hover="For the &quot;Half-precision&quot; and &quot;Single-precision&quot; variants: is the name of the second source scalable vector register Z0-Z7, encoded in the &quot;Zm&quot; field." link="Zm__4">&lt;Zm&gt;</a><text>.H[</text><a hover="For the &quot;Half-precision&quot; variant: is the immediate index, in the range 0 to 7, encoded in the &quot;i3h:i3l&quot; fields." link="imm__36">&lt;imm&gt;</a><text>]</text></asmtemplate>
+      </encoding>
+      <ps_section howmany="1">
+        <ps name="A64.sve.sve_fp_fma_w_by_indexed_elem.sve_fp_fma_long_by_indexed_elem.bfmlslt_z_zzzi_" sections="1" secttype="noheading">
+          <pstext mayhavelinks="1" section="Decode" rep_section="decode">if !IsFeatureImplemented(FEAT_SME2) &amp;&amp; !IsFeatureImplemented(FEAT_SVE2p1) then
+    <a link="impl-shared.EndOfDecode.1" file="shared_pseudocode.xml" hover="function: EndOfDecode(DecodeType reason)">EndOfDecode</a>(<a link="Decode_UNDEF" file="shared_pseudocode.xml" hover="enumeration DecodeType { Decode_UNDEF, Decode_NOP, Decode_OK }">Decode_UNDEF</a>);
+constant integer n = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zn);
+constant integer m = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zm);
+constant integer da = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(Zda);
+constant integer index = <a link="impl-shared.UInt.1" file="shared_pseudocode.xml" hover="function: integer UInt(bits(N) x)">UInt</a>(i3h:i3l);
+constant boolean op1_neg = TRUE;</pstext></ps>
+      </ps_section>
+    </iclass>
+  </classes>
+  <explanations scope="all">
+    <explanation enclist="bfmlslt_z_zzzi_" symboldefcount="1">
+      <symbol link="Zda">&lt;Zda&gt;</symbol>
+      <account encodedin="Zda">
+        <intro>
+          <para>Is the name of the third source and destination scalable vector register, encoded in the "Zda" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlslt_z_zzzi_" symboldefcount="1">
+      <symbol link="Zn__2">&lt;Zn&gt;</symbol>
+      <account encodedin="Zn">
+        <intro>
+          <para>Is the name of the first source scalable vector register, encoded in the "Zn" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlslt_z_zzzi_" symboldefcount="1">
+      <symbol link="Zm__4">&lt;Zm&gt;</symbol>
+      <account encodedin="Zm">
+        <intro>
+          <para>Is the name of the second source scalable vector register Z0-Z7, encoded in the "Zm" field.</para>
+        </intro>
+      </account>
+    </explanation>
+    <explanation enclist="bfmlslt_z_zzzi_" symboldefcount="1">
+      <symbol link="imm__36">&lt;imm&gt;</symbol>
+      <account encodedin="i3h:i3l">
+        <intro>
+          <para>Is the immediate index, in the range 0 to 7, encoded in the "i3h:i3l" fields.</para>
+        </intro>
+      </account>
+    </explanation>
+  </explanations>
+  <ps_section howmany="1">
+    <ps name="A64.sve.sve_fp_fma_w_by_indexed_elem.sve_fp_fma_long_by_indexed_elem.bfmlslt_z_zzzi_" sections="1" secttype="Operation">
+      <pstext mayhavelinks="1" section="Execute" rep_section="execute"><a link="impl-aarch64.CheckSVEEnabled.0" file="shared_pseudocode.xml" hover="function: CheckSVEEnabled()">CheckSVEEnabled</a>();
+constant integer VL = <a link="impl-aarch64.CurrentVL.read.none" file="shared_pseudocode.xml" hover="accessor: VecLen CurrentVL">CurrentVL</a>;
+constant integer elements = VL DIV 32;
+constant integer eltspersegment = 128 DIV 32;
+constant bits(VL) op1 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[n, VL];
+constant bits(VL) op2 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[m, VL];
+constant bits(VL) op3 = <a link="impl-aarch64.Z.read.2" file="shared_pseudocode.xml" hover="accessor: bits(width) Z[integer n, integer width]">Z</a>[da, VL];
+bits(VL) result;
+
+for e = 0 to elements-1
+    constant integer segmentbase = e - (e MOD eltspersegment);
+    constant integer s = 2 * segmentbase + index;
+    constant bits(16) elem1 = (if op1_neg then <a link="impl-shared.BFNeg.1" file="shared_pseudocode.xml" hover="function: bits(N) BFNeg(bits(N) op)">BFNeg</a>(<a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op1, 2*e + 1, 16])
+                               else <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op1, 2*e + 1, 16]);
+    constant bits(16) elem2 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op2, s, 16];
+    constant bits(32) elem3 = <a link="impl-shared.Elem.read.3" file="shared_pseudocode.xml" hover="accessor: bits(size) Elem[bits(N) vector, integer e, integer size]">Elem</a>[op3, e, 32];
+    <a link="impl-shared.Elem.write.3" file="shared_pseudocode.xml" hover="accessor: Elem[bits(N) &amp;vector, integer e, integer size] = bits(size) value">Elem</a>[result, e, 32] = <a link="impl-shared.BFMulAddH.4" file="shared_pseudocode.xml" hover="function: bits(32) BFMulAddH(bits(32) addend, bits(16) op1, bits(16) op2, FPCR_Type fpcr_in)">BFMulAddH</a>(elem3, elem1, elem2, FPCR);
+
+<a link="impl-aarch64.Z.write.2" file="shared_pseudocode.xml" hover="accessor: Z[integer n, integer width] = bits(width) value">Z</a>[da, VL] = result;</pstext></ps>
+  </ps_section>
+</instructionsection>
